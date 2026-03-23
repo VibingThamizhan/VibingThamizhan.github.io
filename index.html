@@ -1,10 +1,1226 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My CV - VibingThamizhan</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pugazhenthi Chandraboss - Professional CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-purple: #8B5CF6;
+            --primary-blue: #3B82F6;
+            --primary-green: #10B981;
+            --primary-orange: #F59E0B;
+            --primary-pink: #EC4899;
+            --primary-red: #EF4444;
+            --dark-bg: #0F0F23;
+            --darker-bg: #0A0A1A;
+            --light-text: #E2E8F0;
+            --accent-text: #CBD5E1;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --gradient-1: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            --gradient-2: linear-gradient(135deg, var(--primary-green), var(--primary-orange));
+            --gradient-3: linear-gradient(135deg, var(--primary-pink), var(--primary-red));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-content .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            margin-bottom: 2rem;
+            color: var(--accent-text);
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.6s both;
+            text-align: left;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideInUp 1s ease-out 0.9s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light-text);
+            border: 2px solid var(--primary-purple);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Download CV Button */
+        .download-cv {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient-2);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .download-cv:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-2);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid transparent;
+            background: var(--gradient-1);
+            padding: 5px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-purple);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-blue);
+        }
+
+        .contact-item i {
+            font-size: 1.2rem;
+            color: var(--primary-orange);
+            width: 25px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .skill-card:hover::before {
+            left: 100%;
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .skill-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--light-text);
+        }
+
+        .skill-items {
+            list-style: none;
+            text-align: left;
+        }
+
+        .skill-items li {
+            padding: 0.3rem 0;
+            opacity: 0.8;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .skill-items li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary-green);
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-1);
+            transform: translateX(-50%);
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 4rem;
+            width: calc(50% - 2rem);
+        }
+
+        .experience-item:nth-child(even) {
+            left: calc(50% + 2rem);
+        }
+
+        .experience-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .experience-item:nth-child(even) .experience-card::before {
+            left: -45px;
+        }
+
+        .experience-item:nth-child(odd) .experience-card::before {
+            right: -45px;
+        }
+
+        .experience-date {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        .experience-company {
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .experience-description {
+            list-style: none;
+        }
+
+        .experience-description li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .experience-description li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary-orange);
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .education-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-pink);
+            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.3);
+        }
+
+        .education-year {
+            color: var(--primary-pink);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-degree {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        .education-school {
+            color: var(--accent-text);
+            margin-bottom: 1rem;
+        }
+
+        /* Languages & Hobbies */
+        .misc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .misc-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .misc-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-orange);
+        }
+
+        .language-item, .hobby-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light-text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .misc-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .experience-timeline {
+                max-width: none;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .experience-item,
+            .experience-item:nth-child(even) {
+                width: calc(100% - 4rem);
+                left: 4rem;
+            }
+
+            .experience-card::before,
+            .experience-item:nth-child(even) .experience-card::before,
+            .experience-item:nth-child(odd) .experience-card::before {
+                left: -45px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .download-cv {
+                bottom: 20px;
+                right: 20px;
+                padding: 0.8rem 1.2rem;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(139, 92, 246, 0.3);
+            border-top: 3px solid var(--primary-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My CV</h1>
-    <p>Under construction...</p>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="bg-animation"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">PUGAZHENTHI</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>PUGAZHENTHI CHANDRABOSS</h1>
+                <p class="subtitle">Document Controller | Port Operations Specialist | Administrative Professional</p>
+                <div class="description">
+                    <p>I am an enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. My passion for efficiency and teamwork drives me to excel in dynamic environments. I am eager to contribute my skills and knowledge to your esteemed organization, ensuring seamless operations and innovative solutions.</p>
+                </div>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i>
+                        Get In Touch
+                    </a>
+                    <a href="#experience" class="btn btn-secondary">
+                        <i class="fas fa-briefcase"></i>
+                        View Experience
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238B5CF6'/%3E%3Cstop offset='100%25' stop-color='%233B82F6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='140' cy='140' r='140' fill='url(%23grad)'/%3E%3Ctext x='140' y='160' text-anchor='middle' fill='white' font-size='80' font-family='Arial'%3EP%3C/text%3E%3C/svg%3E" alt="Profile" class="profile-photo">
+                </div>
+                <div class="about-text">
+                    <h3>Professional Summary</h3>
+                    <p>
+                        With extensive experience in Singapore's dynamic business environment, I bring a unique blend of document control expertise, port operations management, and administrative excellence to every role.
+                    </p>
+                    <p>
+                        My career spans across multiple domains including administrative support, inventory management, workplace safety compliance, and team coordination. I have successfully managed large-scale operations with up to 70 personnel per shift while maintaining zero-accident safety records.
+                    </p>
+                    <p>
+                        Based in the UAE with comprehensive experience in Singapore's maritime sector, I am passionate about driving operational efficiency and delivering exceptional results in fast-paced international environments.
+                    </p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>pugazhtelevision@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+971 565 686 395</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Al Danah, United Arab Emirates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h4>Document Control & Records Management</h4>
+                    <ul class="skill-items">
+                        <li>Document filing & tracking</li>
+                        <li>Version control systems</li>
+                        <li>Compliance documentation</li>
+                        <li>Record keeping & audit support</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Manpower Planning & Operations</h4>
+                    <ul class="skill-items">
+                        <li>Shift coordination (70+ personnel)</li>
+                        <li>Team supervision</li>
+                        <li>Operational efficiency</li>
+                        <li>Multi-disciplinary management</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <h4>Inventory & Store Management</h4>
+                    <ul class="skill-items">
+                        <li>Stock control & monitoring</li>
+                        <li>Material handling</li>
+                        <li>Supplier coordination</li>
+                        <li>Inventory reporting</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Workplace Safety & Compliance</h4>
+                    <ul class="skill-items">
+                        <li>WSH regulations compliance</li>
+                        <li>Safety briefings & training</li>
+                        <li>Incident reporting</li>
+                        <li>Zero-accident targets</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h4>Administrative & IT Support</h4>
+                    <ul class="skill-items">
+                        <li>Microsoft Office Suite</li>
+                        <li>Database management</li>
+                        <li>Email & communication systems</li>
+                        <li>Equipment maintenance</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Financial & Marketing Support</h4>
+                    <ul class="skill-items">
+                        <li>Basic accounting (Excel)</li>
+                        <li>Financial reporting</li>
+                        <li>Marketing coordination</li>
+                        <li>Event support</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="experience-item">
+                    <div class="experience-card">
+                        <div class="experience-date">Oct 2022 — Nov 2025</div>
+                        <div class="experience-title">Document Controller cum Administrative Assistant</div>
+                        <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                        <ul class="experience-description">
+                            <li>Managed and maintained company documents with proper filing, tracking, and version control</li>
+                            <li>Prepared, reviewed, and distributed reports, letters, and official correspondence</li>
+                            <li>Coordinated internal communication between departments and external parties</li>
+                            <li>Handled confidential documents with accuracy and discretion</li>
+                            <li>Assisted management with compliance and operational documentation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-card">
+                        <div class="experience-date">Jun 2021 — Sep 2022</div>
+                        <div class="experience-title">Store Assistant</div>
+                        <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                        <ul class="experience-description">
+                            <li>Managed daily store operations including receiving, storing, and issuing materials</li>
+                            <li>Maintained accurate stock records and updated inventory reports regularly</li>
+                            <li>Monitored stock levels and coordinated replenishment with management</li>
+                            <li>Conducted periodic stock checks and audits</li>
+                            <li>Coordinated with suppliers and internal departments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-card">
+                        <div class="experience-date">Mar 2018 — May 2021</div>
+                        <div class="experience-title">Port Operations Deployment Supervisor</div>
+                        <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                        <ul class="experience-description">
+                            <li>Oversaw large-scale manpower deployment (70 personnel per shift)</li>
+                            <li>Ensured compliance with Singapore WSH regulations and PSA safety protocols</li>
+                            <li>Led daily safety briefings and hazard identification sessions</li>
+                            <li>Supervised multi-disciplinary teams in 12-hour rotational shifts</li>
+                            <li>Maintained zero-accident targets while ensuring operational efficiency</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-card">
+                        <div class="experience-date">Feb 2015 — Aug 2017</div>
+                        <div class="experience-title">Marketing & Administrative Executive</div>
+                        <div class="experience-company">PUGAZH TV (PLC 55702)</div>
+                        <ul class="experience-description">
+                            <li>Managed advertising and event organizing activities</li>
+                            <li>Designed promotional materials using Photoshop</li>
+                            <li>Performed basic video editing and content creation</li>
+                            <li>Scheduled and monitored program telecasting as Relay Editor</li>
+                            <li>Handled administrative duties including documentation and record keeping</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-card">
+                        <div class="experience-date">Jul 2013 — Jul 2014</div>
+                        <div class="experience-title">Desktop Support Associate</div>
+                        <div class="experience-company">AVITRONICS SYSTEMTECH (INDIA) PVT.LTD</div>
+                        <ul class="experience-description">
+                            <li>Maintained HR records including employee database and leave management</li>
+                            <li>Coordinated repair and maintenance of office equipment</li>
+                            <li>Managed computers, photocopiers, fax machines, and other assets</li>
+                            <li>Handled incoming communications and ensured proper distribution</li>
+                            <li>Provided desktop support and technical assistance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="section">
+            <h2 class="section-title">Education & Certifications</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-year">2010 — 2013</div>
+                    <div class="education-degree">Bachelor of Computer Applications (B.C.A.)</div>
+                    <div class="education-school">Srinivasan College of Arts & Science, Perambalur</div>
+                    <p>Affiliated to Bharathidasan University<br>Aggregate: 65%</p>
+                </div>
+                
+                <div class="education-card">
+                    <div class="education-year">2018</div>
+                    <div class="education-degree">Container Lashing Operations</div>
+                    <div class="education-school">Institute of Technical Education</div>
+                    <p>Specialized certification in port container handling and lashing operations</p>
+                </div>
+            </div>
+            
+            <div class="misc-grid">
+                <div class="misc-card">
+                    <h4>Languages</h4>
+                    <div class="language-item">
+                        <i class="fas fa-globe"></i>
+                        <span>English (Professional)</span>
+                    </div>
+                    <div class="language-item">
+                        <i class="fas fa-flag"></i>
+                        <span>Tamil (Native)</span>
+                    </div>
+                </div>
+                
+                <div class="misc-card">
+                    <h4>Hobbies & Interests</h4>
+                    <div class="hobby-item">
+                        <i class="fas fa-music"></i>
+                        <span>Listening to Songs</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-laptop"></i>
+                        <span>Surfing Internet</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h4>Let's Connect!</h4>
+                    <p>I'm always open to discussing new opportunities and professional collaborations. Feel free to reach out!</p>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>pugazhtelevision@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+971 565 686 395</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Al Danah, United Arab Emirates</span>
+                    </div>
+                    
+                    <div class="social-links" style="margin-top: 2rem;">
+                        <a href="mailto:pugazhtelevision@gmail.com" class="social-link" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+971565686395" class="social-link" title="Phone">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <form class="contact-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Let's discuss your requirements..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <a href="#" class="download-cv" id="downloadCV">
+        <i class="fas fa-download"></i>
+        Download CV
+    </a>
+
+    <script>
+        // Loading Animation
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.skill-card, .experience-card, .education-card, .misc-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate email sending (in real implementation, send to backend)
+            setTimeout(() => {
+                alert('Thank you for your message! I will get back to you soon.');
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Download CV functionality
+        document.getElementById('downloadCV').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Create a downloadable CV content
+            const cvContent = `
+PUGAZHENTHI CHANDRABOSS
+Professional CV
+
+Contact Information:
+Email: pugazhtelevision@gmail.com
+Phone: +971 565 686 395
+Location: Al Danah, United Arab Emirates
+
+Professional Summary:
+Enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. Passionate about efficiency and teamwork in dynamic environments.
+
+[Complete CV content would be generated here]
+            `;
+            
+            const blob = new Blob([cvContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Pugazhenthi_Chandraboss_CV.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            // Show success message
+            this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-download"></i> Download CV';
+            }, 2000);
+        });
+
+        // Dynamic greeting based on time
+        const hour = new Date().getHours();
+        let greeting = 'Hello!';
+        if (hour < 12) greeting = 'Good Morning!';
+        else if (hour < 18) greeting = 'Good Afternoon!';
+        else greeting = 'Good Evening!';
+        
+        // Parallax effect for background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const bg = document.querySelector('.bg-animation');
+            bg.style.transform = `translateY(${scrolled * 0.3}px)`;
+        });
+
+        // Add staggered animation to experience cards
+        document.querySelectorAll('.experience-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.2}s`;
+        });
+
+        // Mobile menu toggle (if needed in future)
+        const mobileMenuToggle = () => {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        };
+    </script>
 </body>
 </html>
