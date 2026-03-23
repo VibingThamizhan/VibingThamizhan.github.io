@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corporate Elegant CV Template</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Corporate Minimalist CV Template</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #1E3A8A;
-            --secondary-blue: #3B82F6;
-            --accent-gold: #F59E0B;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
+            --primary-navy: #0F172A;
+            --secondary-navy: #1E293B;
+            --accent-orange: #EA580C;
+            --accent-light: #FB923C;
+            --text-dark: #020617;
+            --text-medium: #475569;
+            --text-light: #64748B;
             --bg-white: #FFFFFF;
             --bg-light: #F8FAFC;
-            --bg-accent: #EEF2FF;
+            --bg-orange: #FFF7ED;
+            --border: #E2E8F0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Source Sans Pro', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: var(--bg-light);
+            background: var(--bg-white);
         }
 
         .container {
@@ -32,479 +35,120 @@
             margin: 0 auto;
             background: var(--bg-white);
             min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
         }
 
-        /* Header */
+        /* Clean Header */
         .header {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            padding: 4rem 3rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 4rem 3rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-white);
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            transform: translate(30%, -30%);
-            opacity: 0.1;
-        }
-
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
-        }
-
-        .contact-bar {
-            display: flex;
-            justify-content: center;
+        .header-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
             gap: 3rem;
-            margin-top: 2rem;
-            position: relative;
-            z-index: 1;
+            align-items: start;
+        }
+
+        .profile-main h1 {
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .profile-main .role {
+            font-size: 1.3rem;
+            color: var(--accent-orange);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .profile-summary {
+            max-width: 600px;
+            font-size: 1.05rem;
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 0.75rem;
+            align-content: start;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+            color: var(--text-medium);
             font-size: 0.95rem;
         }
 
         .contact-item i {
-            color: var(--accent-gold);
+            width: 20px;
+            color: var(--accent-orange);
+            text-align: center;
         }
 
-        /* Main Content */
-        .main-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
+        /* Navigation */
+        .nav-section {
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-light);
+        }
+
+        .nav-container {
+            padding: 0 3rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 1.2rem 2rem;
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-navy);
+            border-bottom-color: var(--accent-orange);
+            background: var(--bg-white);
+        }
+
+        /* Content Area */
+        .content-wrapper {
             padding: 3rem;
         }
 
         .content-section {
-            margin-bottom: 3rem;
+            display: none;
         }
 
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--primary-blue);
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
+        .content-section.active {
+            display: block;
+            animation: fadeInUp 0.4s ease;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--accent-gold);
-        }
-
-        /* Experience Cards */
-        .experience-item {
-            background: var(--bg-white);
-            border: 1px solid #E5E7EB;
-            border-left: 4px solid var(--secondary-blue);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .experience-item:hover {
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
-            border-left-color: var(--accent-gold);
-        }
-
-        .experience-header {
-            display: flex;
-            justify-content: between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .experience-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--primary-blue);
-            margin-bottom: 0.25rem;
-        }
-
-        .experience-company {
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        .experience-date {
-            background: var(--bg-accent);
-            color: var(--primary-blue);
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-left: auto;
-        }
-
-        .experience-description {
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background: var(--bg-accent);
-            padding: 2rem;
-            border-radius: 10px;
-            height: fit-content;
-        }
-
-        .sidebar .section-title {
-            color: var(--primary-blue);
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-
-        .skill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(30, 58, 138, 0.1);
-        }
-
-        .skill-item:last-child {
-            border-bottom: none;
-        }
-
-        .skill-name {
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .skill-level {
-            display: flex;
-            gap: 2px;
-        }
-
-        .skill-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #E5E7EB;
-        }
-
-        .skill-dot.filled {
-            background: var(--accent-gold);
-        }
-
-        .education-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(30, 58, 138, 0.1);
-        }
-
-        .education-item:last-child {
-            border-bottom: none;
-        }
-
-        .education-degree {
-            font-weight: 600;
-            color: var(--primary-blue);
-            margin-bottom: 0.25rem;
-        }
-
-        .education-school {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        .education-year {
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            font-weight: 500;
-        }
-
-        /* About Section */
-        .about-text {
-            color: var(--text-light);
-            line-height: 1.7;
-            font-size: 1.05rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                padding: 2rem;
-            }
-            
-            .header {
-                padding: 3rem 2rem;
-            }
-            
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .contact-bar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header class="header">
-            <h1>Pugazhenthi Chandraboss</h1>
-            <p class="subtitle">Document Controller & Port Operations Specialist</p>
-            <div class="contact-bar">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>pugazhtelevision@gmail.com</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <span>+971 565 686 395</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Al Danah, UAE</span>
-                </div>
-            </div>
-        </header>
-
-        <div class="main-content">
-            <main>
-                <section class="content-section">
-                    <h2 class="section-title">Professional Summary</h2>
-                    <div class="about-text">
-                        <p>Enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. My passion for efficiency and teamwork drives me to excel in dynamic environments. I am eager to contribute my skills and knowledge to your esteemed organization, ensuring seamless operations and innovative solutions.</p>
-                    </div>
-                </section>
-
-                <section class="content-section">
-                    <h2 class="section-title">Professional Experience</h2>
-                    
-                    <div class="experience-item">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Document Controller cum Administrative Assistant</div>
-                                <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
-                            </div>
-                            <div class="experience-date">Oct 2022 — Nov 2025</div>
-                        </div>
-                        <div class="experience-description">
-                            Managed and maintained company documents, ensuring proper filing, tracking, and version control. Prepared, reviewed, and distributed reports, letters, and official correspondence.
-                        </div>
-                    </div>
-
-                    <div class="experience-item">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Store Assistant</div>
-                                <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
-                            </div>
-                            <div class="experience-date">Jun 2021 — Sep 2022</div>
-                        </div>
-                        <div class="experience-description">
-                            Managed daily store operations, including receiving, storing, and issuing materials. Maintained accurate stock records and updated inventory reports regularly.
-                        </div>
-                    </div>
-
-                    <div class="experience-item">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Port Operations Deployment Supervisor</div>
-                                <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
-                            </div>
-                            <div class="experience-date">Mar 2018 — May 2021</div>
-                        </div>
-                        <div class="experience-description">
-                            Oversaw large-scale manpower deployment (70 personnel per shift) for port container handling operations. Ensured full compliance with Singapore WSH regulations.
-                        </div>
-                    </div>
-                </section>
-            </main>
-
-            <aside class="sidebar">
-                <section class="content-section">
-                    <h3 class="section-title">Skills</h3>
-                    <div class="skill-item">
-                        <span class="skill-name">Document Control</span>
-                        <div class="skill-level">
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Port Operations</span>
-                        <div class="skill-level">
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Microsoft Office</span>
-                        <div class="skill-level">
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Safety Compliance</span>
-                        <div class="skill-level">
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="content-section">
-                    <h3 class="section-title">Education</h3>
-                    <div class="education-item">
-                        <div class="education-degree">B.C.A. Computer Applications</div>
-                        <div class="education-school">Srinivasan College</div>
-                        <div class="education-year">2010 — 2013</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="education-degree">Container Lashing Operations</div>
-                        <div class="education-school">Institute of Technical Education</div>
-                        <div class="education-year">2018</div>
-                    </div>
-                </section>
-
-                <section class="content-section">
-                    <h3 class="section-title">Languages</h3>
-                    <div class="skill-item">
-                        <span class="skill-name">English</span>
-                        <div class="skill-level">
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Tamil</span>
-                        <div class="skill-level">
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                            <div class="skill-dot filled"></div>
-                        </div>
-                    </div>
-                </section>
-            </aside>
-        </div>
-    </div>
-</body>
-</html>            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: slideInUp 1s ease-out;
-        }
-
-        .hero-content .subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
-            margin-bottom: 2rem;
-            color: var(--accent-text);
-            animation: slideInUp 1s ease-out 0.3s both;
-        }
-
-        .hero-content .description {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            opacity: 0.9;
-            animation: slideInUp 1s ease-out 0.6s both;
-            text-align: left;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: slideInUp 1s ease-out 0.9s both;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: var(--gradient-1);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--light-text);
-            border: 2px solid var(--primary-purple);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
-        }
-
-        @keyframes slideInUp {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -512,815 +156,317 @@
             }
         }
 
-        /* Download CV Button */
-        .download-cv {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--gradient-2);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .download-cv:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.6);
-        }
-
-        /* Sections */
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
         .section-title {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 2rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
             position: relative;
+            padding-bottom: 1rem;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: var(--gradient-2);
-            border-radius: 2px;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-image {
-            text-align: center;
-        }
-
-        .profile-photo {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid transparent;
-            background: var(--gradient-1);
-            padding: 5px;
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--primary-purple);
-        }
-
-        .about-text p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-        }
-
-        .contact-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--card-bg);
-            border-radius: 15px;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary-blue);
-        }
-
-        .contact-item i {
-            font-size: 1.2rem;
-            color: var(--primary-orange);
-            width: 25px;
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
-        }
-
-        .skill-card:hover::before {
-            left: 100%;
-        }
-
-        .skill-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: var(--gradient-2);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .skill-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--light-text);
-        }
-
-        .skill-items {
-            list-style: none;
-            text-align: left;
-        }
-
-        .skill-items li {
-            padding: 0.3rem 0;
-            opacity: 0.8;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .skill-items li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--primary-green);
-        }
-
-        /* Experience Section */
-        .experience-timeline {
-            position: relative;
-            max-width: 900px;
-            margin: 3rem auto 0;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
             bottom: 0;
-            width: 4px;
-            background: var(--gradient-1);
-            transform: translateX(-50%);
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-orange);
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Experience Layout */
+        .experience-list {
+            display: grid;
+            gap: 3rem;
         }
 
         .experience-item {
-            position: relative;
-            margin-bottom: 4rem;
-            width: calc(50% - 2rem);
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .experience-item:nth-child(even) {
-            left: calc(50% + 2rem);
+        .experience-item:last-child {
+            border-bottom: none;
         }
 
-        .experience-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .experience-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
-        }
-
-        .experience-card::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 20px;
-            height: 20px;
-            background: var(--gradient-2);
-            border-radius: 50%;
-            transform: translateY(-50%);
-        }
-
-        .experience-item:nth-child(even) .experience-card::before {
-            left: -45px;
-        }
-
-        .experience-item:nth-child(odd) .experience-card::before {
-            right: -45px;
+        .experience-meta {
+            text-align: right;
         }
 
         .experience-date {
-            color: var(--primary-green);
             font-weight: 600;
-            font-size: 0.9rem;
+            color: var(--accent-orange);
             margin-bottom: 0.5rem;
         }
 
-        .experience-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+        .experience-duration {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .experience-content h3 {
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 1.4rem;
+            color: var(--primary-navy);
             margin-bottom: 0.5rem;
-            color: var(--light-text);
         }
 
         .experience-company {
-            color: var(--primary-blue);
+            color: var(--text-medium);
             font-weight: 500;
             margin-bottom: 1rem;
         }
 
         .experience-description {
-            list-style: none;
+            color: var(--text-medium);
+            line-height: 1.7;
         }
 
-        .experience-description li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .experience-description li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--primary-orange);
-        }
-
-        /* Education Section */
-        .education-grid {
+        /* Skills Grid */
+        .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .education-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(236, 72, 153, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .education-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-pink);
-            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.3);
-        }
-
-        .education-year {
-            color: var(--primary-pink);
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .education-degree {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--light-text);
-        }
-
-        .education-school {
-            color: var(--accent-text);
-            margin-bottom: 1rem;
-        }
-
-        /* Languages & Hobbies */
-        .misc-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 3rem;
-            margin-top: 3rem;
         }
 
-        .misc-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .misc-card h4 {
-            font-size: 1.5rem;
+        .skill-category h3 {
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 1.3rem;
+            color: var(--primary-navy);
             margin-bottom: 1.5rem;
-            color: var(--primary-orange);
-        }
-
-        .language-item, .hobby-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            gap: 0.75rem;
         }
 
-        /* Contact Section */
-        .contact-content {
+        .skill-category i {
+            color: var(--accent-orange);
+        }
+
+        .skill-list {
+            list-style: none;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 3rem;
+            gap: 1rem;
         }
 
-        .contact-form {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
+        .skill-item:last-child {
+            border-bottom: none;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--accent-text);
+        .skill-name {
+            color: var(--text-dark);
             font-weight: 500;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: var(--light-text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-orange);
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                text-align: center;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .misc-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .experience-timeline {
-                max-width: none;
-            }
-
-            .timeline-line {
-                left: 30px;
-            }
-
-            .experience-item,
-            .experience-item:nth-child(even) {
-                width: calc(100% - 4rem);
-                left: 4rem;
-            }
-
-            .experience-card::before,
-            .experience-item:nth-child(even) .experience-card::before,
-            .experience-item:nth-child(odd) .experience-card::before {
-                left: -45px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .download-cv {
-                bottom: 20px;
-                right: 20px;
-                padding: 0.8rem 1.2rem;
-            }
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Loading Animation */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--darker-bg);
+        .skill-rating {
             display: flex;
+            gap: 3px;
+        }
+
+        .skill-star {
+            width: 12px;
+            height: 12px;
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .skill-star.filled {
+            background: var(--accent-orange);
+        }
+
+        /* Education Timeline */
+        .education-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .education-item {
+            background: var(--bg-orange);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .education-degree {
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 1.2rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .education-school {
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        .education-year {
+            background: var(--accent-orange);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .education-details {
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-medium);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-number {
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-medium);
+            font-size: 0.9rem;
+        }
+
+        /* Languages */
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 6px;
+            border: 1px solid var(--border);
         }
 
-        .loading.fade-out {
-            opacity: 0;
-            pointer-events: none;
+        .language-name {
+            font-weight: 500;
+            color: var(--text-dark);
         }
 
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(139, 92, 246, 0.3);
-            border-top: 3px solid var(--primary-purple);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .language-level {
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .header {
+                padding: 3rem 2rem 2rem;
+            }
+            
+            .content-wrapper {
+                padding: 2rem;
+            }
+            
+            .nav-list {
+                flex-wrap: wrap;
+            }
+            
+            .nav-link {
+                padding: 1rem 1.5rem;
+            }
+            
+            .experience-item {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .experience-meta {
+                text-align: left;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .profile-main h1 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="bg-animation"></div>
-
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">PUGAZHENTHI</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>PUGAZHENTHI CHANDRABOSS</h1>
-                <p class="subtitle">Document Controller | Port Operations Specialist | Administrative Professional</p>
-                <div class="description">
-                    <p>I am an enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. My passion for efficiency and teamwork drives me to excel in dynamic environments. I am eager to contribute my skills and knowledge to your esteemed organization, ensuring seamless operations and innovative solutions.</p>
-                </div>
-                <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-primary">
-                        <i class="fas fa-envelope"></i>
-                        Get In Touch
-                    </a>
-                    <a href="#experience" class="btn btn-secondary">
-                        <i class="fas fa-briefcase"></i>
-                        View Experience
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="section">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238B5CF6'/%3E%3Cstop offset='100%25' stop-color='%233B82F6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='140' cy='140' r='140' fill='url(%23grad)'/%3E%3Ctext x='140' y='160' text-anchor='middle' fill='white' font-size='80' font-family='Arial'%3EP%3C/text%3E%3C/svg%3E" alt="Profile" class="profile-photo">
-                </div>
-                <div class="about-text">
-                    <h3>Professional Summary</h3>
-                    <p>
-                        With extensive experience in Singapore's dynamic business environment, I bring a unique blend of document control expertise, port operations management, and administrative excellence to every role.
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="profile-main">
+                    <h1>Pugazhenthi Chandraboss</h1>
+                    <p class="role">Document Controller & Port Operations Specialist</p>
+                    <p class="profile-summary">
+                        Enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. Passionate about efficiency and teamwork in dynamic environments.
                     </p>
-                    <p>
-                        My career spans across multiple domains including administrative support, inventory management, workplace safety compliance, and team coordination. I have successfully managed large-scale operations with up to 70 personnel per shift while maintaining zero-accident safety records.
-                    </p>
-                    <p>
-                        Based in the UAE with comprehensive experience in Singapore's maritime sector, I am passionate about driving operational efficiency and delivering exceptional results in fast-paced international environments.
-                    </p>
-                    
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>pugazhtelevision@gmail.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+971 565 686 395</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Al Danah, United Arab Emirates</span>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="skills" class="section">
-            <h2 class="section-title">Skills & Expertise</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <h4>Document Control & Records Management</h4>
-                    <ul class="skill-items">
-                        <li>Document filing & tracking</li>
-                        <li>Version control systems</li>
-                        <li>Compliance documentation</li>
-                        <li>Record keeping & audit support</li>
-                    </ul>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h4>Manpower Planning & Operations</h4>
-                    <ul class="skill-items">
-                        <li>Shift coordination (70+ personnel)</li>
-                        <li>Team supervision</li>
-                        <li>Operational efficiency</li>
-                        <li>Multi-disciplinary management</li>
-                    </ul>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-warehouse"></i>
-                    </div>
-                    <h4>Inventory & Store Management</h4>
-                    <ul class="skill-items">
-                        <li>Stock control & monitoring</li>
-                        <li>Material handling</li>
-                        <li>Supplier coordination</li>
-                        <li>Inventory reporting</li>
-                    </ul>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h4>Workplace Safety & Compliance</h4>
-                    <ul class="skill-items">
-                        <li>WSH regulations compliance</li>
-                        <li>Safety briefings & training</li>
-                        <li>Incident reporting</li>
-                        <li>Zero-accident targets</li>
-                    </ul>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h4>Administrative & IT Support</h4>
-                    <ul class="skill-items">
-                        <li>Microsoft Office Suite</li>
-                        <li>Database management</li>
-                        <li>Email & communication systems</li>
-                        <li>Equipment maintenance</li>
-                    </ul>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h4>Financial & Marketing Support</h4>
-                    <ul class="skill-items">
-                        <li>Basic accounting (Excel)</li>
-                        <li>Financial reporting</li>
-                        <li>Marketing coordination</li>
-                        <li>Event support</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="section">
-            <h2 class="section-title">Professional Experience</h2>
-            <div class="experience-timeline">
-                <div class="timeline-line"></div>
-                
-                <div class="experience-item">
-                    <div class="experience-card">
-                        <div class="experience-date">Oct 2022 — Nov 2025</div>
-                        <div class="experience-title">Document Controller cum Administrative Assistant</div>
-                        <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
-                        <ul class="experience-description">
-                            <li>Managed and maintained company documents with proper filing, tracking, and version control</li>
-                            <li>Prepared, reviewed, and distributed reports, letters, and official correspondence</li>
-                            <li>Coordinated internal communication between departments and external parties</li>
-                            <li>Handled confidential documents with accuracy and discretion</li>
-                            <li>Assisted management with compliance and operational documentation</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="experience-card">
-                        <div class="experience-date">Jun 2021 — Sep 2022</div>
-                        <div class="experience-title">Store Assistant</div>
-                        <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
-                        <ul class="experience-description">
-                            <li>Managed daily store operations including receiving, storing, and issuing materials</li>
-                            <li>Maintained accurate stock records and updated inventory reports regularly</li>
-                            <li>Monitored stock levels and coordinated replenishment with management</li>
-                            <li>Conducted periodic stock checks and audits</li>
-                            <li>Coordinated with suppliers and internal departments</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="experience-card">
-                        <div class="experience-date">Mar 2018 — May 2021</div>
-                        <div class="experience-title">Port Operations Deployment Supervisor</div>
-                        <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
-                        <ul class="experience-description">
-                            <li>Oversaw large-scale manpower deployment (70 personnel per shift)</li>
-                            <li>Ensured compliance with Singapore WSH regulations and PSA safety protocols</li>
-                            <li>Led daily safety briefings and hazard identification sessions</li>
-                            <li>Supervised multi-disciplinary teams in 12-hour rotational shifts</li>
-                            <li>Maintained zero-accident targets while ensuring operational efficiency</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="experience-card">
-                        <div class="experience-date">Feb 2015 — Aug 2017</div>
-                        <div class="experience-title">Marketing & Administrative Executive</div>
-                        <div class="experience-company">PUGAZH TV (PLC 55702)</div>
-                        <ul class="experience-description">
-                            <li>Managed advertising and event organizing activities</li>
-                            <li>Designed promotional materials using Photoshop</li>
-                            <li>Performed basic video editing and content creation</li>
-                            <li>Scheduled and monitored program telecasting as Relay Editor</li>
-                            <li>Handled administrative duties including documentation and record keeping</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="experience-card">
-                        <div class="experience-date">Jul 2013 — Jul 2014</div>
-                        <div class="experience-title">Desktop Support Associate</div>
-                        <div class="experience-company">AVITRONICS SYSTEMTECH (INDIA) PVT.LTD</div>
-                        <ul class="experience-description">
-                            <li>Maintained HR records including employee database and leave management</li>
-                            <li>Coordinated repair and maintenance of office equipment</li>
-                            <li>Managed computers, photocopiers, fax machines, and other assets</li>
-                            <li>Handled incoming communications and ensured proper distribution</li>
-                            <li>Provided desktop support and technical assistance</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="education" class="section">
-            <h2 class="section-title">Education & Certifications</h2>
-            <div class="education-grid">
-                <div class="education-card">
-                    <div class="education-year">2010 — 2013</div>
-                    <div class="education-degree">Bachelor of Computer Applications (B.C.A.)</div>
-                    <div class="education-school">Srinivasan College of Arts & Science, Perambalur</div>
-                    <p>Affiliated to Bharathidasan University<br>Aggregate: 65%</p>
-                </div>
-                
-                <div class="education-card">
-                    <div class="education-year">2018</div>
-                    <div class="education-degree">Container Lashing Operations</div>
-                    <div class="education-school">Institute of Technical Education</div>
-                    <p>Specialized certification in port container handling and lashing operations</p>
-                </div>
-            </div>
-            
-            <div class="misc-grid">
-                <div class="misc-card">
-                    <h4>Languages</h4>
-                    <div class="language-item">
-                        <i class="fas fa-globe"></i>
-                        <span>English (Professional)</span>
-                    </div>
-                    <div class="language-item">
-                        <i class="fas fa-flag"></i>
-                        <span>Tamil (Native)</span>
-                    </div>
-                </div>
-                
-                <div class="misc-card">
-                    <h4>Hobbies & Interests</h4>
-                    <div class="hobby-item">
-                        <i class="fas fa-music"></i>
-                        <span>Listening to Songs</span>
-                    </div>
-                    <div class="hobby-item">
-                        <i class="fas fa-laptop"></i>
-                        <span>Surfing Internet</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="section">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
                 <div class="contact-info">
-                    <h4>Let's Connect!</h4>
-                    <p>I'm always open to discussing new opportunities and professional collaborations. Feel free to reach out!</p>
-                    
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
                         <span>pugazhtelevision@gmail.com</span>
@@ -1331,194 +477,123 @@
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Al Danah, United Arab Emirates</span>
-                    </div>
-                    
-                    <div class="social-links" style="margin-top: 2rem;">
-                        <a href="mailto:pugazhtelevision@gmail.com" class="social-link" title="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <a href="tel:+971565686395" class="social-link" title="Phone">
-                            <i class="fas fa-phone"></i>
-                        </a>
-                        <a href="#" class="social-link" title="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="social-link" title="WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
+                        <span>Al Danah, UAE</span>
                     </div>
                 </div>
-
-                <form class="contact-form" action="#" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required placeholder="Let's discuss your requirements..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i>
-                        Send Message
-                    </button>
-                </form>
             </div>
-        </section>
-    </main>
+        </header>
 
-    <a href="#" class="download-cv" id="downloadCV">
-        <i class="fas fa-download"></i>
-        Download CV
-    </a>
+        <nav class="nav-section">
+            <div class="nav-container">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="experience">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="education">Education</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-    <script>
-        // Loading Animation
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('fade-out');
-                setTimeout(() => {
-                    document.getElementById('loading').style.display = 'none';
-                }, 500);
-            }, 1000);
-        });
+        <main class="content-wrapper">
+            <section class="content-section active" id="about">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">Professional background and key achievements</p>
+                
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>
+                            I am an enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. My passion for efficiency and teamwork drives me to excel in dynamic environments.
+                        </p>
+                        <p>
+                            Throughout my career in Singapore's maritime industry, I have developed expertise in managing large-scale operations, ensuring compliance with safety regulations, and maintaining operational excellence. My experience spans across document management, inventory control, and team supervision.
+                        </p>
+                        <p>
+                            I am eager to contribute my skills and knowledge to your esteemed organization, ensuring seamless operations and innovative solutions. My goal is to continue growing professionally while making a meaningful impact in achieving organizational objectives.
+                        </p>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">7+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">70+</div>
+                            <div class="stat-label">Team Members Managed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Safety Compliance</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Major Projects</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+            <section class="content-section" id="experience">
+                <h2 class="section-title">Professional Experience</h2>
+                <p class="section-subtitle">Career progression and key responsibilities</p>
+                
+                <div class="experience-list">
+                    <div class="experience-item">
+                        <div class="experience-meta">
+                            <div class="experience-date">Oct 2022 — Nov 2025</div>
+                            <div class="experience-duration">3+ years</div>
+                        </div>
+                        <div class="experience-content">
+                            <h3>Document Controller cum Administrative Assistant</h3>
+                            <p class="experience-company">Royal Greyhound Pte Ltd, Singapore</p>
+                            <p class="experience-description">
+                                Managed and maintained company documents, ensuring proper filing, tracking, and version control. Prepared, reviewed, and distributed reports, letters, and official correspondence. Coordinated internal communication between departments and external parties. Supported day-to-day administrative activities including scheduling, record keeping, and office coordination.
+                            </p>
+                        </div>
+                    </div>
 
-        // Animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+                    <div class="experience-item">
+                        <div class="experience-meta">
+                            <div class="experience-date">Jun 2021 — Sep 2022</div>
+                            <div class="experience-duration">1.3 years</div>
+                        </div>
+                        <div class="experience-content">
+                            <h3>Store Assistant</h3>
+                            <p class="experience-company">Royal Greyhound Pte Ltd, Singapore</p>
+                            <p class="experience-description">
+                                Managed daily store operations, including receiving, storing, and issuing materials. Maintained accurate stock records and updated inventory reports regularly. Monitored stock levels and informed management about shortages or replenishment needs. Coordinated with suppliers and internal departments for material requests and deliveries.
+                            </p>
+                        </div>
+                    </div>
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+                    <div class="experience-item">
+                        <div class="experience-meta">
+                            <div class="experience-date">Mar 2018 — May 2021</div>
+                            <div class="experience-duration">3.2 years</div>
+                        </div>
+                        <div class="experience-content">
+                            <h3>Port Operations Deployment Supervisor</h3>
+                            <p class="experience-company">Royal Greyhound Pte Ltd, Singapore</p>
+                            <p class="experience-description">
+                                Oversaw large-scale manpower deployment (70 personnel per shift) for port container handling operations. Ensured full compliance with Singapore Workplace Safety and Health regulations and PSA safety protocols. Led daily safety briefings and hazard identification sessions. Supervised multi-disciplinary teams working 12-hour rotational shifts.
+                            </p>
+                        </div>
+                    </div>
 
-        // Observe cards for animation
-        document.querySelectorAll('.skill-card, .experience-card, .education-card, .misc-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Form submission
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject');
-            const message = formData.get('message');
-            
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-            
-            // Simulate email sending (in real implementation, send to backend)
-            setTimeout(() => {
-                alert('Thank you for your message! I will get back to you soon.');
-                this.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
-        });
-
-        // Download CV functionality
-        document.getElementById('downloadCV').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Create a downloadable CV content
-            const cvContent = `
-PUGAZHENTHI CHANDRABOSS
-Professional CV
-
-Contact Information:
-Email: pugazhtelevision@gmail.com
-Phone: +971 565 686 395
-Location: Al Danah, United Arab Emirates
-
-Professional Summary:
-Enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. Passionate about efficiency and teamwork in dynamic environments.
-
-[Complete CV content would be generated here]
-            `;
-            
-            const blob = new Blob([cvContent], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Pugazhenthi_Chandraboss_CV.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-            // Show success message
-            this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-download"></i> Download CV';
-            }, 2000);
-        });
-
-        // Dynamic greeting based on time
-        const hour = new Date().getHours();
-        let greeting = 'Hello!';
-        if (hour < 12) greeting = 'Good Morning!';
-        else if (hour < 18) greeting = 'Good Afternoon!';
-        else greeting = 'Good Evening!';
-        
-        // Parallax effect for background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const bg = document.querySelector('.bg-animation');
-            bg.style.transform = `translateY(${scrolled * 0.3}px)`;
-        });
-
-        // Add staggered animation to experience cards
-        document.querySelectorAll('.experience-card').forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.2}s`;
-        });
-
-        // Mobile menu toggle (if needed in future)
-        const mobileMenuToggle = () => {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('active');
-        };
-    </script>
-</body>
-</html>
+                    <div class="experience-item">
+                        <div class="experience-meta">
+                            <div class="experience-date">Feb 2015 — Aug 2017</div>
+                            <div class="experience-duration">2.5 years</div>
+                        </div>
+                        <div class="experience-content">
+                            <h3>Marketing & Administrative Executive</h3>
+                            <p class="experience-company">PUGAZH TV (PLC 55702)</p>
+                            <p class="experience-description">
+                                Managed advertising and event organizing activities. Designed promotional materials using Photoshop and performed basic video editing. Scheduled and monitored program telecasting as a Relay Editor. Performed administrative and clerical du
