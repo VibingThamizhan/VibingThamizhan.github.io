@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corporate Modern CV Template</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Corporate Elegant CV Template</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-green: #059669;
-            --secondary-green: #10B981;
-            --accent-orange: #F97316;
-            --text-dark: #111827;
-            --text-medium: #374151;
+            --primary-blue: #1E3A8A;
+            --secondary-blue: #3B82F6;
+            --accent-gold: #F59E0B;
+            --text-dark: #1F2937;
             --text-light: #6B7280;
             --bg-white: #FFFFFF;
-            --bg-light: #F9FAFB;
-            --bg-green: #ECFDF5;
-            --border-light: #E5E7EB;
+            --bg-light: #F8FAFC;
+            --bg-accent: #EEF2FF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Source Sans Pro', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
             background: var(--bg-light);
@@ -34,370 +32,249 @@
             margin: 0 auto;
             background: var(--bg-white);
             min-height: 100vh;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
         }
 
-        /* Header with Split Design */
+        /* Header */
         .header {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 300px;
-        }
-
-        .header-left {
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: white;
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding: 4rem 3rem;
+            text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
-        .header-left::before {
+        .header::before {
             content: '';
             position: absolute;
             top: 0;
             right: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 0 300px 50px;
-            border-color: transparent transparent var(--bg-white) transparent;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+            opacity: 0.1;
         }
 
-        .header-right {
-            background: var(--bg-white);
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
-
-        .profile-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.8rem;
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .profile-title {
-            font-size: 1.2rem;
+        .header .subtitle {
+            font-size: 1.3rem;
             opacity: 0.9;
             font-weight: 300;
+            position: relative;
+            z-index: 1;
         }
 
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+        .contact-bar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            color: var(--text-medium);
+            gap: 0.5rem;
+            font-size: 0.95rem;
         }
 
         .contact-item i {
-            width: 20px;
-            color: var(--accent-orange);
-            font-size: 1.1rem;
+            color: var(--accent-gold);
         }
 
-        /* Navigation Tabs */
-        .nav-tabs {
-            background: var(--bg-green);
-            padding: 0 3rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .tab-list {
-            display: flex;
-            gap: 0;
-            list-style: none;
-        }
-
-        .tab-item {
-            padding: 1rem 2rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            color: var(--text-medium);
-        }
-
-        .tab-item.active,
-        .tab-item:hover {
-            color: var(--primary-green);
-            border-bottom-color: var(--accent-orange);
-            background: var(--bg-white);
-        }
-
-        /* Content Area */
-        .content-area {
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
             padding: 3rem;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .content-section {
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            color: var(--primary-green);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-title i {
-            color: var(--accent-orange);
-        }
-
-        /* Experience Cards Grid */
-        .experience-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-
-        .experience-card {
-            background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
             position: relative;
-            overflow: hidden;
+            padding-bottom: 0.5rem;
         }
 
-        .experience-card::before {
+        .section-title::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary-green), var(--accent-orange));
+            width: 60px;
+            height: 3px;
+            background: var(--accent-gold);
         }
 
-        .experience-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.15);
+        /* Experience Cards */
+        .experience-item {
+            background: var(--bg-white);
+            border: 1px solid #E5E7EB;
+            border-left: 4px solid var(--secondary-blue);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover {
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+            border-left-color: var(--accent-gold);
         }
 
         .experience-header {
+            display: flex;
+            justify-content: between;
+            align-items: start;
             margin-bottom: 1rem;
         }
 
         .experience-title {
-            font-family: 'Montserrat', sans-serif;
             font-weight: 600;
-            font-size: 1.2rem;
-            color: var(--primary-green);
+            font-size: 1.1rem;
+            color: var(--primary-blue);
             margin-bottom: 0.25rem;
         }
 
         .experience-company {
-            color: var(--text-medium);
+            color: var(--text-light);
             font-weight: 500;
         }
 
         .experience-date {
-            background: var(--bg-green);
-            color: var(--primary-green);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+            background: var(--bg-accent);
+            color: var(--primary-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
             font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            margin: 1rem 0;
+            font-weight: 500;
+            margin-left: auto;
         }
 
         .experience-description {
             color: var(--text-light);
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
-        /* Skills Section */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-category {
-            background: var(--bg-light);
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-accent);
             padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            height: fit-content;
         }
 
-        .skill-category h3 {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--primary-green);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .skill-category i {
-            color: var(--accent-orange);
+        .sidebar .section-title {
+            color: var(--primary-blue);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
         }
 
         .skill-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--border-light);
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(30, 58, 138, 0.1);
         }
 
         .skill-item:last-child {
             border-bottom: none;
         }
 
-        .skill-bar {
-            width: 100px;
-            height: 6px;
-            background: var(--border-light);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary-green), var(--accent-orange));
-            border-radius: 3px;
-            transition: width 1s ease;
-        }
-
-        /* About Section */
-        .about-content {
-            max-width: 800px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-medium);
-        }
-
-        .about-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .highlight-item {
-            text-align: center;
-            padding: 2rem;
-            background: var(--bg-green);
-            border-radius: 12px;
-        }
-
-        .highlight-number {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-green);
-        }
-
-        .highlight-text {
-            color: var(--text-medium);
+        .skill-name {
             font-weight: 500;
-            margin-top: 0.5rem;
+            color: var(--text-dark);
         }
 
-        /* Education Timeline */
-        .education-timeline {
-            position: relative;
-            padding-left: 2rem;
+        .skill-level {
+            display: flex;
+            gap: 2px;
         }
 
-        .education-timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--primary-green), var(--accent-orange));
+        .skill-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #E5E7EB;
+        }
+
+        .skill-dot.filled {
+            background: var(--accent-gold);
         }
 
         .education-item {
-            position: relative;
-            margin-bottom: 2rem;
-            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(30, 58, 138, 0.1);
         }
 
-        .education-item::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-orange);
-            border-radius: 50%;
+        .education-item:last-child {
+            border-bottom: none;
         }
 
         .education-degree {
-            font-family: 'Montserrat', sans-serif;
             font-weight: 600;
-            color: var(--primary-green);
-            font-size: 1.1rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
         }
 
         .education-school {
-            color: var(--text-medium);
-            margin: 0.25rem 0;
+            color: var(--text-light);
+            font-size: 0.95rem;
         }
 
         .education-year {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            font-weight: 500;
+        }
+
+        /* About Section */
+        .about-text {
             color: var(--text-light);
-            font-size: 0.9rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header {
+            .main-content {
                 grid-template-columns: 1fr;
-            }
-            
-            .header-left::before {
-                display: none;
-            }
-            
-            .content-area {
                 padding: 2rem;
             }
             
-            .tab-list {
-                flex-wrap: wrap;
+            .header {
+                padding: 3rem 2rem;
             }
             
-            .tab-item {
-                padding: 0.8rem 1rem;
-                font-size: 0.9rem;
+            .header h1 {
+                font-size: 2.5rem;
             }
             
-            .profile-name {
-                font-size: 2.2rem;
+            .contact-bar {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
@@ -405,72 +282,42 @@
 <body>
     <div class="container">
         <header class="header">
-            <div class="header-left">
-                <h1 class="profile-name">Pugazhenthi<br>Chandraboss</h1>
-                <p class="profile-title">Document Controller & Operations Specialist</p>
-            </div>
-            <div class="header-right">
-                <div class="contact-grid">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>pugazhtelevision@gmail.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+971 565 686 395</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Al Danah, UAE</span>
-                    </div>
+            <h1>Pugazhenthi Chandraboss</h1>
+            <p class="subtitle">Document Controller & Port Operations Specialist</p>
+            <div class="contact-bar">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>pugazhtelevision@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+971 565 686 395</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Al Danah, UAE</span>
                 </div>
             </div>
         </header>
 
-        <nav class="nav-tabs">
-            <ul class="tab-list">
-                <li class="tab-item active" data-tab="about">About</li>
-                <li class="tab-item" data-tab="experience">Experience</li>
-                <li class="tab-item" data-tab="skills">Skills</li>
-                <li class="tab-item" data-tab="education">Education</li>
-            </ul>
-        </nav>
+        <div class="main-content">
+            <main>
+                <section class="content-section">
+                    <h2 class="section-title">Professional Summary</h2>
+                    <div class="about-text">
+                        <p>Enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. My passion for efficiency and teamwork drives me to excel in dynamic environments. I am eager to contribute my skills and knowledge to your esteemed organization, ensuring seamless operations and innovative solutions.</p>
+                    </div>
+                </section>
 
-        <div class="content-area">
-            <div class="tab-content active" id="about">
-                <h2 class="section-title">
-                    <i class="fas fa-user"></i>
-                    About Me
-                </h2>
-                <div class="about-content">
-                    <p>I am an enthusiastic and detail-oriented professional with diverse experience in Document Control, Port Operations, Marketing, and IT Support. My passion for efficiency and teamwork drives me to excel in dynamic environments. I am eager to contribute my skills and knowledge to your esteemed organization, ensuring seamless operations and innovative solutions.</p>
-                </div>
-                <div class="about-highlights">
-                    <div class="highlight-item">
-                        <div class="highlight-number">7+</div>
-                        <div class="highlight-text">Years Experience</div>
-                    </div>
-                    <div class="highlight-item">
-                        <div class="highlight-number">70+</div>
-                        <div class="highlight-text">Team Members Supervised</div>
-                    </div>
-                    <div class="highlight-item">
-                        <div class="highlight-number">100%</div>
-                        <div class="highlight-text">Safety Compliance</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="experience">
-                <h2 class="section-title">
-                    <i class="fas fa-briefcase"></i>
-                    Professional Experience
-                </h2>
-                <div class="experience-grid">
-                    <div class="experience-card">
+                <section class="content-section">
+                    <h2 class="section-title">Professional Experience</h2>
+                    
+                    <div class="experience-item">
                         <div class="experience-header">
-                            <div class="experience-title">Document Controller cum Administrative Assistant</div>
-                            <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                            <div>
+                                <div class="experience-title">Document Controller cum Administrative Assistant</div>
+                                <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                            </div>
                             <div class="experience-date">Oct 2022 — Nov 2025</div>
                         </div>
                         <div class="experience-description">
@@ -478,10 +325,12 @@
                         </div>
                     </div>
 
-                    <div class="experience-card">
+                    <div class="experience-item">
                         <div class="experience-header">
-                            <div class="experience-title">Store Assistant</div>
-                            <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                            <div>
+                                <div class="experience-title">Store Assistant</div>
+                                <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                            </div>
                             <div class="experience-date">Jun 2021 — Sep 2022</div>
                         </div>
                         <div class="experience-description">
@@ -489,99 +338,105 @@
                         </div>
                     </div>
 
-                    <div class="experience-card">
+                    <div class="experience-item">
                         <div class="experience-header">
-                            <div class="experience-title">Port Operations Deployment Supervisor</div>
-                            <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                            <div>
+                                <div class="experience-title">Port Operations Deployment Supervisor</div>
+                                <div class="experience-company">Royal Greyhound Pte Ltd, Singapore</div>
+                            </div>
                             <div class="experience-date">Mar 2018 — May 2021</div>
                         </div>
                         <div class="experience-description">
                             Oversaw large-scale manpower deployment (70 personnel per shift) for port container handling operations. Ensured full compliance with Singapore WSH regulations.
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            </main>
 
-            <div class="tab-content" id="skills">
-                <h2 class="section-title">
-                    <i class="fas fa-cogs"></i>
-                    Skills & Expertise
-                </h2>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <h3><i class="fas fa-file-alt"></i> Document Management</h3>
-                        <div class="skill-item">
-                            <span>Document Control</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Records Management</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Compliance Support</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 88%"></div>
-                            </div>
+            <aside class="sidebar">
+                <section class="content-section">
+                    <h3 class="section-title">Skills</h3>
+                    <div class="skill-item">
+                        <span class="skill-name">Document Control</span>
+                        <div class="skill-level">
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
                         </div>
                     </div>
-
-                    <div class="skill-category">
-                        <h3><i class="fas fa-anchor"></i> Operations</h3>
-                        <div class="skill-item">
-                            <span>Port Operations</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 92%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Team Supervision</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Safety Compliance</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 95%"></div>
-                            </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Port Operations</span>
+                        <div class="skill-level">
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot"></div>
                         </div>
                     </div>
-
-                    <div class="skill-category">
-                        <h3><i class="fas fa-desktop"></i> Technical Skills</h3>
-                        <div class="skill-item">
-                            <span>Microsoft Office</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Inventory Management</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 88%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Database Management</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%"></div>
-                            </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Microsoft Office</span>
+                        <div class="skill-level">
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot"></div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Safety Compliance</span>
+                        <div class="skill-level">
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                        </div>
+                    </div>
+                </section>
 
-            <div class="tab-content" id="education">
-                <h2 class="section-title">
-                    <i class="fas fa-graduation-cap"></i>
-                    Education & Certifications
-                </h2>
-                <div class="education-timeline">
+                <section class="content-section">
+                    <h3 class="section-title">Education</h3>
                     <div class="education-item">
-                        <div class="education-degree">Bachelor of Computer Applications (B.C.A.)</div>
-                        <div class="education-school">Srinivasan Co
+                        <div class="education-degree">B.C.A. Computer Applications</div>
+                        <div class="education-school">Srinivasan College</div>
+                        <div class="education-year">2010 — 2013</div>
+                    </div>
+                    <div class="education-item">
+                        <div class="education-degree">Container Lashing Operations</div>
+                        <div class="education-school">Institute of Technical Education</div>
+                        <div class="education-year">2018</div>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h3 class="section-title">Languages</h3>
+                    <div class="skill-item">
+                        <span class="skill-name">English</span>
+                        <div class="skill-level">
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Tamil</span>
+                        <div class="skill-level">
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                            <div class="skill-dot filled"></div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </div>
+</body>
+</html>
