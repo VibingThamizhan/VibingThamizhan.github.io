@@ -122,7 +122,8 @@
             display: none;
         }
         .video-hidden #particles-canvas {
-            display: block;
+           const color = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim() || '#D4A853';
+ctx.fillStyle = color + '66';  // This may not work with rgba values
         }
 
         /* VIDEO STATUS */
@@ -1161,9 +1162,9 @@
     <!-- VIDEO BACKGROUND -->
     <div class="video-wrapper" id="videoWrapper">
         <video id="video-bg" autoplay muted loop playsinline>
-            <source src="YOUR_VIDEO_1_URL.mp4" type="video/mp4">
-            <source src="YOUR_VIDEO_2_URL.mp4" type="video/mp4">
-            <source src="YOUR_VIDEO_3_URL.mp4" type="video/mp4">
+            <source src="https://vibingthamizhan.github.io/bg.mp4" type="video/mp4">
+<source src="https://vibingthamizhan.github.io/bg1.mp4" type="video/mp4">
+<source src="https://vibingthamizhan.github.io/bg2.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="video-overlay"></div>
@@ -1671,20 +1672,27 @@
             }, 400);
         }
 
-        function toggleVideoMode(showVideo) {
-            isVideoMode = showVideo;
-            if (showVideo) {
-                document.body.classList.remove('video-hidden');
-                videoToggle.innerHTML = '<i class="fas fa-video"></i><span class="badge-count" id="videoCount">' + (
-                    currentVideoIndex + 1) + '</span>';
-                videoToggle.classList.add('active');
-                videoWrapper.style.opacity = '1';
-            } else {
-                document.body.classList.add('video-hidden');
-                videoToggle.innerHTML = '<i class="fas fa-video-slash"></i><span class="badge-count" id="videoCount">⏸</span>';
-                videoToggle.classList.remove('active');
-                videoBg.pause();
-            }
+      function toggleVideoMode(showVideo) {
+    isVideoMode = showVideo;
+    const badge = videoToggle.querySelector('.badge-count') || document.createElement('span');
+    badge.className = 'badge-count';
+    badge.id = 'videoCount';
+    
+    if (showVideo) {
+        document.body.classList.remove('video-hidden');
+        videoToggle.innerHTML = '<i class="fas fa-video"></i>';
+        badge.textContent = currentVideoIndex + 1;
+        videoToggle.classList.add('active');
+        videoWrapper.style.opacity = '1';
+    } else {
+        document.body.classList.add('video-hidden');
+        videoToggle.innerHTML = '<i class="fas fa-video-slash"></i>';
+        badge.textContent = '⏸';
+        videoToggle.classList.remove('active');
+        videoBg.pause();
+    }
+    videoToggle.appendChild(badge);
+}
             updateBadgeReference();
         }
 
