@@ -6,7 +6,15 @@
     <title>Pugazhenthi Chandraboss — Document Controller</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    </script>
+    
     <style>
         /* ============================================
            ROOT VARIABLES
@@ -14,19 +22,39 @@
         :root {
             --bg-primary: #0B0B14;
             --bg-secondary: #11111E;
-            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-input: rgba(255, 255, 255, 0.04);
+            --bg-hero-overlay: rgba(11, 11, 20, 0.3);
             --text-primary: #F0F0F5;
             --text-secondary: #A0A0B8;
             --text-muted: #6A6A82;
+            --text-inverse: #0B0B14;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-gold: rgba(212, 168, 83, 0.2);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 10px 30px rgba(212, 168, 83, 0.25);
             --gold: #D4A853;
             --gold-glow: rgba(212, 168, 83, 0.15);
             --gold-gradient: linear-gradient(135deg, #D4A853, #F5D78E);
-            --purple: #8B5CF6;
-            --purple-glow: rgba(139, 92, 246, 0.2);
-            --border-gold: rgba(212, 168, 83, 0.2);
             --font-display: 'Orbitron', monospace;
             --font-body: 'Inter', sans-serif;
             --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #F5F3F0;
+            --bg-secondary: #EDEAE5;
+            --bg-card: rgba(0, 0, 0, 0.03);
+            --bg-input: rgba(0, 0, 0, 0.04);
+            --bg-hero-overlay: rgba(245, 243, 240, 0.3);
+            --text-primary: #1A1A1A;
+            --text-secondary: #555555;
+            --text-muted: #888888;
+            --text-inverse: #FFFFFF;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-gold: rgba(212, 168, 83, 0.3);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --shadow-glow: 0 10px 30px rgba(212, 168, 83, 0.2);
         }
 
         /* ============================================
@@ -49,15 +77,49 @@
             overflow-x: hidden;
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
         ::selection {
             background: var(--gold);
-            color: var(--bg-primary);
+            color: var(--text-inverse);
         }
 
         /* ============================================
-           PARTICLE BACKGROUND
+           VIDEO BACKGROUND
+           ============================================ */
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            object-fit: cover;
+            opacity: 0.6;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        [data-theme="light"] #video-bg {
+            opacity: 0.15;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: var(--bg-hero-overlay);
+            backdrop-filter: blur(3px);
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        /* ============================================
+           PARTICLE CANVAS
            ============================================ */
         #particles-canvas {
             position: fixed;
@@ -67,6 +129,11 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
+            display: none;
+        }
+
+        .no-video #particles-canvas {
+            display: block;
         }
 
         /* ============================================
@@ -96,8 +163,13 @@
         }
 
         @keyframes bounceDown {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
         }
 
         /* ============================================
@@ -115,14 +187,19 @@
             align-items: center;
             background: rgba(11, 11, 20, 0.6);
             backdrop-filter: blur(20px) saturate(1.2);
-            border-bottom: 1px solid rgba(212, 168, 83, 0.06);
+            border-bottom: 1px solid var(--border-color);
             transition: var(--transition-smooth);
         }
 
+        [data-theme="light"] .header {
+            background: rgba(245, 243, 240, 0.85);
+        }
+
         .header.scrolled {
-            background: rgba(11, 11, 20, 0.92);
+            background: var(--bg-primary);
             padding: 0.8rem 2.5rem;
-            border-bottom-color: rgba(212, 168, 83, 0.15);
+            border-bottom-color: var(--border-gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
@@ -132,6 +209,7 @@
             letter-spacing: 3px;
             color: var(--text-primary);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .logo span {
@@ -177,7 +255,7 @@
 
         .nav-cta {
             background: var(--gold);
-            color: var(--bg-primary) !important;
+            color: var(--text-inverse) !important;
             padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-weight: 600 !important;
@@ -189,9 +267,55 @@
 
         .nav-cta:hover {
             background: #F5D78E !important;
-            color: var(--bg-primary) !important;
+            color: var(--text-inverse) !important;
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(212, 168, 83, 0.3);
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: rotate(15deg);
+        }
+
+        .video-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .video-toggle:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .video-toggle.active {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
         .nav-toggle {
@@ -221,7 +345,7 @@
         .hero-badge {
             display: inline-block;
             padding: 0.3rem 1.2rem;
-            border: 1px solid rgba(212, 168, 83, 0.25);
+            border: 1px solid var(--border-gold);
             border-radius: 50px;
             font-size: 0.7rem;
             letter-spacing: 2px;
@@ -324,8 +448,8 @@
 
         .btn-primary {
             background: var(--gold-gradient);
-            color: var(--bg-primary);
-            box-shadow: 0 10px 30px rgba(212, 168, 83, 0.25);
+            color: var(--text-inverse);
+            box-shadow: var(--shadow-glow);
         }
 
         .btn-primary:hover {
@@ -336,7 +460,7 @@
         .btn-secondary {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--border-color);
         }
 
         .btn-secondary:hover {
@@ -348,18 +472,24 @@
         .btn-download {
             background: rgba(212, 168, 83, 0.1);
             color: var(--gold);
-            border: 1px solid rgba(212, 168, 83, 0.2);
+            border: 1px solid var(--border-gold);
         }
 
         .btn-download:hover {
             background: rgba(212, 168, 83, 0.2);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(212, 168, 83, 0.15);
+            box-shadow: var(--shadow-glow);
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ============================================
@@ -444,11 +574,17 @@
             font-size: 5rem;
             font-weight: 900;
             color: var(--gold);
+            transition: background 0.5s ease;
         }
 
         @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(212, 168, 83, 0.2); }
-            50% { box-shadow: 0 0 60px rgba(212, 168, 83, 0.4); }
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(212, 168, 83, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(212, 168, 83, 0.4);
+            }
         }
 
         .about-text h3 {
@@ -481,14 +617,14 @@
             padding: 0.7rem 1rem;
             background: var(--bg-card);
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             font-size: 0.85rem;
             color: var(--text-secondary);
             transition: var(--transition-smooth);
         }
 
         .about-contact-item:hover {
-            border-color: rgba(212, 168, 83, 0.2);
+            border-color: var(--border-gold);
             color: var(--text-primary);
         }
 
@@ -509,7 +645,7 @@
 
         .achievement-card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem 1.5rem;
             text-align: center;
@@ -517,9 +653,9 @@
         }
 
         .achievement-card:hover {
-            border-color: rgba(212, 168, 83, 0.2);
+            border-color: var(--border-gold);
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-card);
         }
 
         .achievement-number {
@@ -553,14 +689,14 @@
 
         .skill-card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 1.8rem;
             transition: var(--transition-smooth);
         }
 
         .skill-card:hover {
-            border-color: rgba(212, 168, 83, 0.15);
+            border-color: var(--border-gold);
             transform: translateY(-4px);
         }
 
@@ -584,15 +720,15 @@
 
         .skill-tag {
             padding: 0.2rem 0.8rem;
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--bg-card);
             border-radius: 50px;
             font-size: 0.75rem;
             color: var(--text-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
         }
 
         .skill-tag.highlight {
-            border-color: rgba(212, 168, 83, 0.2);
+            border-color: var(--border-gold);
             color: var(--gold);
         }
 
@@ -686,7 +822,7 @@
 
         .cert-card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 1.5rem;
             display: flex;
@@ -696,7 +832,7 @@
         }
 
         .cert-card:hover {
-            border-color: rgba(212, 168, 83, 0.15);
+            border-color: var(--border-gold);
         }
 
         .cert-icon {
@@ -725,7 +861,7 @@
             border-radius: 50px;
             font-size: 0.65rem;
             color: var(--gold);
-            border: 1px solid rgba(212, 168, 83, 0.1);
+            border: 1px solid var(--border-gold);
         }
 
         /* ============================================
@@ -739,7 +875,7 @@
 
         .info-card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
             text-align: center;
@@ -754,7 +890,7 @@
 
         .info-card .item {
             padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .info-card .item:last-child {
@@ -775,7 +911,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .lang-item:last-child {
@@ -796,7 +932,7 @@
         .lang-level {
             font-size: 0.75rem;
             color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--bg-card);
             padding: 0.1rem 0.8rem;
             border-radius: 50px;
         }
@@ -855,7 +991,7 @@
             height: 42px;
             border-radius: 50%;
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
             color: var(--text-secondary);
             font-size: 1rem;
             transition: var(--transition-smooth);
@@ -871,7 +1007,7 @@
 
         .contact-form {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
         }
@@ -892,8 +1028,8 @@
         .form-group textarea {
             width: 100%;
             padding: 0.8rem 1rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             color: var(--text-primary);
             font-family: var(--font-body);
@@ -904,7 +1040,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: rgba(212, 168, 83, 0.3);
+            border-color: var(--border-gold);
             box-shadow: 0 0 20px rgba(212, 168, 83, 0.05);
         }
 
@@ -919,7 +1055,7 @@
         .footer {
             text-align: center;
             padding: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid var(--border-color);
             color: var(--text-muted);
             font-size: 0.8rem;
             position: relative;
@@ -939,7 +1075,7 @@
             right: 2rem;
             z-index: 999;
             background: var(--gold-gradient);
-            color: var(--bg-primary);
+            color: var(--text-inverse);
             border: none;
             padding: 0.8rem 1.5rem;
             border-radius: 50px;
@@ -947,7 +1083,7 @@
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(212, 168, 83, 0.3);
+            box-shadow: var(--shadow-glow);
             transition: var(--transition-smooth);
             display: flex;
             align-items: center;
@@ -957,6 +1093,53 @@
         .float-download:hover {
             transform: translateY(-5px) scale(1.04);
             box-shadow: 0 20px 40px rgba(212, 168, 83, 0.4);
+        }
+
+        /* ============================================
+           TOAST NOTIFICATION
+           ============================================ */
+        .toast {
+            position: fixed;
+            bottom: 7rem;
+            right: 2rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-gold);
+            box-shadow: var(--shadow-card);
+            z-index: 9999;
+            max-width: 350px;
+            font-size: 0.9rem;
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .toast.success {
+            border-left: 4px solid #10B981;
+        }
+
+        .toast.error {
+            border-left: 4px solid #EF4444;
+        }
+
+        .toast .toast-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .toast .toast-message {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
 
         /* ============================================
@@ -984,6 +1167,7 @@
             .header {
                 padding: 0.8rem 1.2rem;
             }
+
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -991,11 +1175,13 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: rgba(11, 11, 20, 0.98);
+                background: var(--bg-primary);
                 padding: 1.5rem;
                 gap: 1.2rem;
-                border-bottom: 1px solid rgba(212, 168, 83, 0.1);
+                border-bottom: 1px solid var(--border-gold);
+                backdrop-filter: blur(20px);
             }
+
             .nav-links.active {
                 display: flex;
             }
@@ -1048,16 +1234,22 @@
                 padding: 0.6rem 1.2rem;
                 font-size: 0.75rem;
             }
-        }
 
-        @media (max-width: 480px) {
-            .achievements-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
+            .theme-toggle,
+            .video-toggle {
+                width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
             }
-            .achievement-number {
-                font-size: 2rem;
+
+            .nav-links .theme-toggle,
+            .nav-links .video-toggle {
+                width: 100%;
+                border-radius: 50px;
+                padding: 0.6rem;
+                gap: 0.5rem;
             }
+
             .about-avatar {
                 width: 200px;
                 height: 200px;
@@ -1068,29 +1260,76 @@
             .hero-title {
                 font-size: 2.5rem;
             }
+
+            .toast {
+                bottom: 5rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .achievements-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .achievement-number {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================
-    PARTICLE BACKGROUND
+    VIDEO BACKGROUND
+    ============================================ -->
+    <video id="video-bg" autoplay muted loop playsinline>
+        <source src="https://assets.codepen.io/t-17948/space-bg.mp4" type="video/mp4">
+        <source src="https://www.pexels.com/video/3492636/download/" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- ============================================
+    PARTICLE CANVAS
     ============================================ -->
     <canvas id="particles-canvas"></canvas>
+
+    <!-- ============================================
+    TOAST NOTIFICATION
+    ============================================ -->
+    <div class="toast" id="toast">
+        <div class="toast-title" id="toastTitle">Success</div>
+        <div class="toast-message" id="toastMessage">Your message was sent!</div>
+    </div>
 
     <!-- ============================================
     HEADER
     ============================================ -->
     <header class="header" id="header">
         <a href="#home" class="logo">P<span>.</span>C</a>
+
         <ul class="nav-links" id="navLinks">
             <li><a href="#about">About</a></li>
             <li><a href="#achievements">Achievements</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#certifications">Certifications</a></li>
+            <li>
+                <button class="video-toggle active" id="videoToggle" aria-label="Toggle video background" title="Toggle Video Background">
+                    <i class="fas fa-video"></i>
+                </button>
+            </li>
+            <li>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </li>
             <li><a href="#contact" class="nav-cta">Contact</a></li>
         </ul>
+
         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
         </button>
@@ -1314,7 +1553,6 @@
         <div class="section-divider"></div>
 
         <div class="timeline">
-            <!-- Item 1 -->
             <div class="timeline-item">
                 <div class="timeline-date">Sep 2022 — Nov 2025</div>
                 <div class="timeline-title">Document Controller</div>
@@ -1328,7 +1566,6 @@
                 </ul>
             </div>
 
-            <!-- Item 2 -->
             <div class="timeline-item">
                 <div class="timeline-date">Mar 2018 — Aug 2022</div>
                 <div class="timeline-title">Port Operations Deployment Supervisor</div>
@@ -1341,7 +1578,6 @@
                 </ul>
             </div>
 
-            <!-- Item 3 -->
             <div class="timeline-item">
                 <div class="timeline-date">Feb 2015 — Aug 2017</div>
                 <div class="timeline-title">Marketing &amp; Administrative Executive</div>
@@ -1353,7 +1589,6 @@
                 </ul>
             </div>
 
-            <!-- Item 4 -->
             <div class="timeline-item">
                 <div class="timeline-date">Jul 2013 — Jul 2014</div>
                 <div class="timeline-title">Desktop Support Associate</div>
@@ -1410,7 +1645,6 @@
             </div>
         </div>
 
-        <!-- Languages & Additional -->
         <div class="info-grid" style="margin-top: 2.5rem;">
             <div class="info-card">
                 <h4><i class="fas fa-language" style="color: var(--gold); margin-right: 0.5rem;"></i> Languages</h4>
@@ -1481,7 +1715,7 @@
                     <label for="message">Message</label>
                     <textarea id="message" placeholder="Tell me about your requirements..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" id="formSubmitBtn">
                     <i class="fas fa-paper-plane"></i> Send Message
                 </button>
             </form>
@@ -1507,10 +1741,170 @@
     ============================================ -->
     <script>
         // ============================================
-        // 1. PARTICLE SYSTEM
+        // 1. EMAILJS CONFIGURATION
+        // ============================================
+        // ⚠️ REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS ⚠️
+        // Go to https://www.emailjs.com/ to sign up and get these values.
+        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+        // Initialize EmailJS
+        (function initEmailJS() {
+            if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+                console.log('✅ EmailJS initialized');
+            } else {
+                console.warn('⚠️ EmailJS not configured. Please add your Public Key.');
+            }
+        })();
+
+        // ============================================
+        // 2. TOAST NOTIFICATION
+        // ============================================
+        const toast = document.getElementById('toast');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastMessage = document.getElementById('toastMessage');
+        let toastTimeout;
+
+        function showToast(title, message, type = 'success') {
+            toast.className = 'toast ' + type;
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // ============================================
+        // 3. CONTACT FORM - WITH EMAILJS
+        // ============================================
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !subject || !message) {
+                showToast('Incomplete Form', 'Please fill in all fields.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('formSubmitBtn');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+
+            // Check if EmailJS is configured
+            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+                // Fallback: Show success locally but warn user
+                setTimeout(() => {
+                    showToast(
+                        '📧 Demo Mode',
+                        'Your message was recorded locally. To send real emails, configure EmailJS with your credentials.',
+                        'success'
+                    );
+                    this.reset();
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    console.warn('⚠️ EmailJS not configured. Please add your Public Key, Service ID, and Template ID.');
+                }, 1000);
+                return;
+            }
+
+            // Send email via EmailJS
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message,
+                to_email: 'email2pugal@gmail.com'
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function(response) {
+                    showToast('✅ Message Sent!', 'Thank you, ' + name + '! I will get back to you soon.', 'success');
+                    document.getElementById('contactForm').reset();
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    console.log('✅ Email sent successfully:', response);
+                })
+                .catch(function(error) {
+                    showToast('❌ Something went wrong', 'Please try again later or email me directly.', 'error');
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    console.error('❌ EmailJS error:', error);
+                });
+        });
+
+        // ============================================
+        // 4. THEME TOGGLE
+        // ============================================
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        } else if (!prefersDark) {
+            document.documentElement.setAttribute('data-theme', 'light');
+            updateThemeIcon('light');
+        }
+
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(next);
+        });
+
+        // ============================================
+        // 5. VIDEO BACKGROUND TOGGLE
+        // ============================================
+        const videoToggle = document.getElementById('videoToggle');
+        const videoBg = document.getElementById('video-bg');
+        const canvas = document.getElementById('particles-canvas');
+        let videoActive = true;
+
+        videoBg.addEventListener('error', () => {
+            videoBg.style.display = 'none';
+            document.body.classList.add('no-video');
+            videoActive = false;
+            videoToggle.classList.remove('active');
+        });
+
+        videoToggle.addEventListener('click', () => {
+            videoActive = !videoActive;
+            videoToggle.classList.toggle('active', videoActive);
+
+            if (videoActive) {
+                videoBg.style.display = 'block';
+                document.body.classList.remove('no-video');
+                videoBg.play().catch(() => {});
+            } else {
+                videoBg.style.display = 'none';
+                document.body.classList.add('no-video');
+                videoBg.pause();
+            }
+        });
+
+        // ============================================
+        // 6. PARTICLE SYSTEM
         // ============================================
         (function initParticles() {
-            const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
             let w, h;
@@ -1523,9 +1917,7 @@
             resize();
 
             class Particle {
-                constructor() {
-                    this.reset();
-                }
+                constructor() { this.reset(); }
                 reset() {
                     this.x = Math.random() * w;
                     this.y = Math.random() * h;
@@ -1579,7 +1971,7 @@
         })();
 
         // ============================================
-        // 2. HEADER SCROLL EFFECT
+        // 7. HEADER SCROLL EFFECT
         // ============================================
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
@@ -1587,7 +1979,7 @@
         });
 
         // ============================================
-        // 3. MOBILE NAV TOGGLE
+        // 8. MOBILE NAV TOGGLE
         // ============================================
         const navToggle = document.getElementById('navToggle');
         const navLinks = document.getElementById('navLinks');
@@ -1607,7 +1999,7 @@
         });
 
         // ============================================
-        // 4. SMOOTH SCROLL
+        // 9. SMOOTH SCROLL
         // ============================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -1622,7 +2014,7 @@
         });
 
         // ============================================
-        // 5. COUNTER ANIMATION
+        // 10. COUNTER ANIMATION
         // ============================================
         const counters = document.querySelectorAll('.stat-number[data-count]');
         let countersAnimated = false;
@@ -1662,18 +2054,15 @@
             });
         }
 
-        // Trigger counters when hero is visible
         const heroObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                }
+                if (entry.isIntersecting) animateCounters();
             });
         }, { threshold: 0.3 });
         heroObserver.observe(document.querySelector('.hero'));
 
         // ============================================
-        // 6. SCROLL REVEAL (Intersection Observer)
+        // 11. SCROLL REVEAL
         // ============================================
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1689,40 +2078,13 @@
         ).forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1)';
+            el.style.transition =
+                'opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1)';
             revealObserver.observe(el);
         });
 
         // ============================================
-        // 7. CONTACT FORM
-        // ============================================
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
-
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            const btn = this.querySelector('button[type="submit"]');
-            const original = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                alert('Thank you, ' + name + '! I will get back to you soon.');
-                this.reset();
-                btn.innerHTML = original;
-                btn.disabled = false;
-            }, 1500);
-        });
-
-        // ============================================
-        // 8. DOWNLOAD PDF
+        // 12. DOWNLOAD PDF - FIXED & COMPLETE
         // ============================================
         function generatePDF() {
             const btn = document.getElementById('floatDownloadBtn');
@@ -1730,141 +2092,189 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
             btn.disabled = true;
 
-            // Create a clean, ATS-friendly version for PDF
-            const element = document.createElement('div');
-            element.style.cssText = `
-                font-family: 'Inter', Arial, sans-serif;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 40px;
-                background: white;
-                color: #111;
-                line-height: 1.6;
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+            // Build a clean, complete HTML document for PDF
+            const pdfContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Pugazhenthi Chandraboss - CV</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        body {
+                            font-family: 'Inter', Arial, Helvetica, sans-serif;
+                            max-width: 800px;
+                            margin: 0 auto;
+                            padding: 40px;
+                            background: ${isLight ? '#FFFFFF' : '#0B0B14'};
+                            color: ${isLight ? '#111111' : '#F0F0F5'};
+                            line-height: 1.6;
+                        }
+                        h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; margin-bottom: 2px; color: ${isLight ? '#111' : '#F0F0F5'}; }
+                        .subtitle { font-size: 17px; color: #D4A853; font-weight: 600; margin-bottom: 2px; }
+                        .contact-bar { font-size: 13px; color: ${isLight ? '#666' : '#A0A0B8'}; margin-bottom: 20px; border-bottom: 2px solid #D4A853; padding-bottom: 14px; }
+                        h2 { font-size: 15px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 18px; margin-bottom: 6px; }
+                        p, li { font-size: 13px; color: ${isLight ? '#333' : '#A0A0B8'}; }
+                        ul { padding-left: 20px; margin-bottom: 10px; }
+                        li { margin-bottom: 2px; }
+                        .job-title { font-weight: 700; font-size: 14px; margin-bottom: 1px; color: ${isLight ? '#111' : '#F0F0F5'}; }
+                        .job-meta { font-size: 12px; color: ${isLight ? '#666' : '#A0A0B8'}; margin-bottom: 3px; }
+                        .footer-text { font-size: 10px; color: ${isLight ? '#999' : '#6A6A82'}; margin-top: 25px; border-top: 1px solid ${isLight ? '#eee' : '#222'}; padding-top: 14px; text-align: center; }
+                        .badge { display: inline-block; background: rgba(212,168,83,0.15); color: #D4A853; font-size: 10px; padding: 1px 10px; border-radius: 20px; margin-left: 6px; }
+                        .section-divider { width: 50px; height: 2px; background: #D4A853; margin: 4px 0 10px 0; border-radius: 2px; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+                        .info-block { background: ${isLight ? '#F5F3F0' : 'rgba(255,255,255,0.04)'}; padding: 12px 16px; border-radius: 8px; }
+                        .info-block h3 { font-size: 13px; color: #D4A853; margin-bottom: 4px; }
+                        .info-block p { font-size: 12px; margin-bottom: 2px; }
+                        .cert-item { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+                        .cert-item i { color: #D4A853; width: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>PUGAZHENTHI CHANDRABOSS</h1>
+                    <div class="subtitle">Document Controller</div>
+                    <div class="contact-bar">
+                        Al Danah, Abu Dhabi, UAE &bull; +971 56 56 86 395 &bull; email2pugal@gmail.com &bull; linkedin.com/in/pugazhenthic
+                    </div>
+
+                    <h2>Professional Summary</h2>
+                    <p>Certified Document Controller with 3+ years of dedicated document control experience and 10+ years of combined expertise in administrative support, logistics, and operational documentation across maritime and corporate environments. Experienced in managing the complete document lifecycle using Aconex and EDMS. Recognized for maintaining 100% audit compliance and coordinating high-volume documentation across cross-functional teams.</p>
+
+                    <h2>Key Achievements</h2>
+                    <ul>
+                        <li>Managed 200+ controlled documents per month with 100% audit compliance</li>
+                        <li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li>
+                        <li>Expert in Aconex EDMS and ISO 9001 documentation standards</li>
+                    </ul>
+
+                    <h2>Professional Experience</h2>
+
+                    <div class="job-title">Document Controller</div>
+                    <div class="job-meta">Royal Greyhound Pte Ltd (Under PSA) &bull; Singapore &bull; Sep 2022 – Nov 2025</div>
+                    <ul>
+                        <li>Managed 200+ active documents monthly maintaining 100% audit compliance</li>
+                        <li>Utilized Aconex EDMS for document uploads, transmittals, and revision control</li>
+                        <li>Maintained document registers, revision histories, and audit-ready records</li>
+                        <li>Enforced ISO 9001-aligned documentation procedures and numbering standards</li>
+                        <li>Coordinated document flow between operations, compliance, and senior management</li>
+                    </ul>
+
+                    <div class="job-title">Port Operations Deployment Supervisor</div>
+                    <div class="job-meta">Royal Greyhound Pte Ltd (Under PSA) &bull; Singapore &bull; Mar 2018 – Aug 2022</div>
+                    <ul>
+                        <li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li>
+                        <li>Maintained WSH and PSA compliance documentation</li>
+                        <li>Coordinated incident reports, corrective actions, and audit records</li>
+                        <li>Conducted safety briefings and documented risk assessments</li>
+                    </ul>
+
+                    <div class="job-title">Marketing &amp; Administrative Executive</div>
+                    <div class="job-meta">PUGAZH TV (PLC 55702) &bull; India &bull; Feb 2015 – Aug 2017</div>
+                    <ul>
+                        <li>Managed administrative filing, correspondence, and document archiving</li>
+                        <li>Prepared marketing performance reports and broadcasting documentation</li>
+                        <li>Designed promotional materials using Adobe Photoshop</li>
+                    </ul>
+
+                    <div class="job-title">Desktop Support Associate</div>
+                    <div class="job-meta">Avitronics Systemtech Pvt. Ltd. &bull; India &bull; Jul 2013 – Jul 2014</div>
+                    <ul>
+                        <li>Managed HR documentation including employee records and payroll data</li>
+                        <li>Maintained document control for internal correspondence and records</li>
+                        <li>Coordinated IT asset documentation and maintenance records</li>
+                    </ul>
+
+                    <h2>Education &amp; Certifications</h2>
+                    <ul>
+                        <li><strong>Bachelor of Computer Applications (BCA)</strong> — Bharathidasan University &bull; 65% &bull; 2013</li>
+                        <li><strong>Certified Document Controller (CPD)</strong> — Time Training Center LLC &bull; ID: 22964</li>
+                        <li><strong>Document Control (ACTVET)</strong> — Time Training Center LLC &bull; ID: 19863</li>
+                        <li><strong>Container Lashing Operations</strong> — ITE Singapore &bull; ID: 208733 &bull; 2018</li>
+                    </ul>
+
+                    <div class="info-grid">
+                        <div class="info-block">
+                            <h3>🌐 Languages</h3>
+                            <p>English — Fluent</p>
+                            <p>Tamil — Native</p>
+                            <p>Malay — Basic</p>
+                        </div>
+                        <div class="info-block">
+                            <h3>ℹ️ Additional Information</h3>
+                            <p>Work Authorization: Resident Visa (Spouse)</p>
+                            <p>Availability: Immediate</p>
+                            <p>Relocation: Open within UAE</p>
+                            <p>Travel: Willing to Travel</p>
+                            <p>Passport Validity: October 2033</p>
+                        </div>
+                    </div>
+
+                    <div class="footer-text">© 2026 Pugazhenthi Chandraboss &bull; Professional CV</div>
+                </body>
+                </html>
             `;
 
-            element.innerHTML = `
-                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px;">PUGAZHENTHI CHANDRABOSS</h1>
-                <p style="font-size: 18px; color: #8B5CF6; font-weight: 600; margin-bottom: 4px;">Document Controller</p>
-                <p style="font-size: 14px; color: #666; margin-bottom: 20px; border-bottom: 2px solid #D4A853; padding-bottom: 16px;">
-                    Al Danah, Abu Dhabi, UAE | +971 56 56 86 395 | email2pugal@gmail.com
-                </p>
+            // Create a blob and open in a new window for printing/PDF
+            const blob = new Blob([pdfContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
 
-                <h2 style="font-size: 16px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; margin-bottom: 8px;">Professional Summary</h2>
-                <p style="font-size: 14px; margin-bottom: 16px;">
-                    Certified Document Controller with 3+ years of dedicated document control experience and 10+ years of combined expertise in administrative support, logistics, and operational documentation across maritime and corporate environments. Experienced in managing the complete document lifecycle using Aconex and EDMS. Recognized for maintaining 100% audit compliance and coordinating high-volume documentation across cross-functional teams.
-                </p>
-
-                <h2 style="font-size: 16px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; margin-bottom: 8px;">Key Achievements</h2>
-                <ul style="font-size: 14px; padding-left: 20px; margin-bottom: 16px;">
-                    <li>Managed 200+ controlled documents per month with 100% audit compliance</li>
-                    <li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li>
-                    <li>Expert in Aconex EDMS and ISO 9001 documentation standards</li>
-                </ul>
-
-                <h2 style="font-size: 16px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; margin-bottom: 8px;">Professional Experience</h2>
-
-                <p style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">Document Controller</p>
-                <p style="font-size: 13px; color: #666; margin-bottom: 4px;">Royal Greyhound Pte Ltd (Under PSA) | Singapore | Sep 2022 – Nov 2025</p>
-                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 12px;">
-                    <li>Managed 200+ active documents monthly maintaining 100% audit compliance</li>
-                    <li>Utilized Aconex EDMS for document uploads, transmittals, and revision control</li>
-                    <li>Maintained document registers, revision histories, and audit-ready records</li>
-                    <li>Enforced ISO 9001-aligned documentation procedures</li>
-                </ul>
-
-                <p style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">Port Operations Deployment Supervisor</p>
-                <p style="font-size: 13px; color: #666; margin-bottom: 4px;">Royal Greyhound Pte Ltd (Under PSA) | Singapore | Mar 2018 – Aug 2022</p>
-                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 12px;">
-                    <li>Supervised 70+ personnel per shift with zero safety incidents</li>
-                    <li>Maintained WSH and PSA compliance documentation</li>
-                    <li>Coordinated incident reports, corrective actions, and audit records</li>
-                </ul>
-
-                <p style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">Marketing & Administrative Executive</p>
-                <p style="font-size: 13px; color: #666; margin-bottom: 4px;">PUGAZH TV (PLC 55702) | India | Feb 2015 – Aug 2017</p>
-                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 12px;">
-                    <li>Managed administrative filing, correspondence, and document archiving</li>
-                    <li>Prepared marketing performance reports and broadcasting documentation</li>
-                </ul>
-
-                <p style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">Desktop Support Associate</p>
-                <p style="font-size: 13px; color: #666; margin-bottom: 4px;">Avitronics Systemtech Pvt. Ltd. | India | Jul 2013 – Jul 2014</p>
-                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 16px;">
-                    <li>Managed HR documentation including employee records and payroll data</li>
-                    <li>Maintained document control for internal correspondence and records</li>
-                </ul>
-
-                <h2 style="font-size: 16px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; margin-bottom: 8px;">Education & Certifications</h2>
-                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 8px;">
-                    <li><strong>Bachelor of Computer Applications (BCA)</strong> — Bharathidasan University | 65% | 2013</li>
-                    <li><strong>Certified Document Controller (CPD)</strong> — Time Training Center LLC | ID: 22964</li>
-                    <li><strong>Document Control (ACTVET)</strong> — Time Training Center LLC | ID: 19863</li>
-                    <li><strong>Container Lashing Operations</strong> — ITE Singapore | ID: 208733 | 2018</li>
-                </ul>
-
-                <h2 style="font-size: 16px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; margin-bottom: 8px;">Languages</h2>
-                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 8px;">
-                    <li>English — Fluent</li>
-                    <li>Tamil — Native</li>
-                    <li>Malay — Basic</li>
-                </ul>
-
-                <h2 style="font-size: 16px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; margin-bottom: 8px;">Additional Information</h2>
-                <ul style="font-size: 13px; padding-left: 20px;">
-                    <li>Work Authorization: Resident Visa (Spouse)</li>
-                    <li>Availability: Immediate</li>
-                    <li>Relocation: Open within UAE</li>
-                    <li>Travel: Willing to Travel</li>
-                    <li>Passport Validity: October 2033</li>
-                </ul>
-
-                <p style="font-size: 11px; color: #999; margin-top: 30px; border-top: 1px solid #eee; padding-top: 16px; text-align: center;">
-                    © 2026 Pugazhenthi Chandraboss • Professional CV
-                </p>
-            `;
+            // Use html2pdf.js for better PDF rendering
+            const container = document.createElement('div');
+            container.innerHTML = pdfContent;
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            container.style.top = '0';
+            container.style.width = '800px';
+            container.style.background = isLight ? '#FFFFFF' : '#0B0B14';
+            document.body.appendChild(container);
 
             const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
+                margin: [0.4, 0.4, 0.4, 0.4],
                 filename: 'Pugazhenthi_Chandraboss_CV.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
                     useCORS: true,
-                    letterRendering: true,
                     logging: false,
+                    width: 800,
                 },
                 jsPDF: {
                     unit: 'in',
                     format: 'a4',
                     orientation: 'portrait'
-                },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
+            html2pdf().set(opt).from(container).save().then(() => {
+                document.body.removeChild(container);
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                 }, 2500);
-            }).catch(() => {
+                showToast('✅ PDF Downloaded!', 'Your professional CV has been generated successfully.', 'success');
+            }).catch((err) => {
+                document.body.removeChild(container);
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-                alert('There was an issue generating the PDF. Please try again.');
+                console.error('PDF Error:', err);
+                showToast('❌ PDF Error', 'There was an issue generating the PDF. Please try again.', 'error');
             });
         }
 
-        // Both download buttons trigger the same function
         document.getElementById('floatDownloadBtn').addEventListener('click', generatePDF);
         document.getElementById('downloadPdfBtn').addEventListener('click', generatePDF);
 
         // ============================================
-        // 9. CONSOLE WELCOME
+        // 13. CONSOLE WELCOME
         // ============================================
         console.log('%c☀️ Pugazhenthi Chandraboss', 'font-size: 20px; font-weight: bold; color: #D4A853;');
         console.log('%cDocument Controller | 3+ Years Experience | Abu Dhabi, UAE', 'font-size: 14px; color: #A0A0B8;');
-        console.log('%c📄 Open to new opportunities', 'font-size: 12px; color: #666;');
+        console.log('%c📧 To enable real email sending, configure EmailJS with your credentials.', 'font-size: 12px; color: #6A6A82;');
+        console.log('%c📄 Click "Download CV" for a complete, properly formatted PDF.', 'font-size: 12px; color: #6A6A82;');
     </script>
 </body>
 </html>
