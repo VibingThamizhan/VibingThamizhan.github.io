@@ -91,6 +91,7 @@
             height: 100%;
             z-index: 0;
             overflow: hidden;
+            transition: opacity 0.8s ease;
         }
 
         #video-bg {
@@ -116,17 +117,14 @@
             opacity: 0.15;
         }
 
-        /* Video hidden state */
-        .video-hidden #video-bg {
+        /* Video hidden state (particles mode) */
+        .video-hidden .video-wrapper {
             opacity: 0 !important;
-        }
-
-        .video-hidden .video-overlay {
-            opacity: 0 !important;
+            pointer-events: none !important;
         }
 
         /* ============================================
-           PARTICLE CANVAS (fallback when video is off)
+           PARTICLE CANVAS
            ============================================ */
         #particles-canvas {
             position: fixed;
@@ -141,6 +139,33 @@
 
         .video-hidden #particles-canvas {
             display: block;
+        }
+
+        /* ============================================
+           VIDEO STATUS BADGE (shows which video is playing)
+           ============================================ */
+        .video-status {
+            position: fixed;
+            bottom: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            font-size: 0.7rem;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .video-status.show {
+            opacity: 1;
         }
 
         /* ============================================
@@ -345,6 +370,7 @@
             align-items: center;
             justify-content: center;
             transition: var(--transition-smooth);
+            position: relative;
         }
 
         .video-toggle:hover {
@@ -356,6 +382,24 @@
             border-color: var(--gold);
             color: var(--gold);
             background: rgba(212, 168, 83, 0.1);
+        }
+
+        /* Video toggle badge showing count */
+        .video-toggle .badge-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.55rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body);
         }
 
         .nav-toggle {
@@ -1271,6 +1315,12 @@
                 left: 1rem;
                 max-width: none;
             }
+
+            .video-status {
+                bottom: 5rem;
+                font-size: 0.6rem;
+                padding: 0.3rem 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1292,11 +1342,14 @@
     <div class="video-wrapper" id="videoWrapper">
         <video id="video-bg" autoplay muted loop playsinline>
             <!-- 
-                Replace the src below with your own video URL.
-                Recommended free videos from: https://www.pexels.com/videos/
+                ⚠️ REPLACE THESE WITH YOUR 3 VIDEO URLs ⚠️
+                Video 1: Space / Cosmic
+                Video 2: Abstract / Technology
+                Video 3: Nature / City
             -->
-            <source src="https://cdn.pixabay.com/video/2023/07/15/171586-844837353_large.mp4" type="video/mp4">
-            <source src="https://cdn.pixabay.com/video/2024/01/28/200532-906600304_large.mp4" type="video/mp4">
+            <source src="YOUR_VIDEO_1_URL.mp4" type="video/mp4">
+            <source src="YOUR_VIDEO_2_URL.mp4" type="video/mp4">
+            <source src="YOUR_VIDEO_3_URL.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="video-overlay"></div>
@@ -1306,6 +1359,11 @@
     PARTICLE CANVAS (fallback when video is off)
     ============================================ -->
     <canvas id="particles-canvas"></canvas>
+
+    <!-- ============================================
+    VIDEO STATUS BADGE
+    ============================================ -->
+    <div class="video-status" id="videoStatus">🌌 Video 1</div>
 
     <!-- ============================================
     TOAST NOTIFICATION
@@ -1330,6 +1388,7 @@
             <li>
                 <button class="video-toggle active" id="videoToggle" aria-label="Toggle video background" title="Toggle Video Background">
                     <i class="fas fa-video"></i>
+                    <span class="badge-count" id="videoCount">1</span>
                 </button>
             </li>
             <li>
@@ -1406,10 +1465,6 @@
         <div class="about-grid">
             <div class="about-visual">
                 <div class="about-avatar">
-                    <!-- 
-                        ⚠️ REPLACE "YOUR_IMAGE_URL_HERE" with your actual image URL
-                        Example: https://vibingthamizhan.github.io/profile.jpg
-                    -->
                     <img src="YOUR_IMAGE_URL_HERE" alt="Pugazhenthi Chandraboss" class="profile-photo">
                 </div>
             </div>
@@ -1757,21 +1812,163 @@
         // ============================================
         // 1. EMAILJS CONFIGURATION
         // ============================================
-        // ⚠️ REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS ⚠️
         const EMAILJS_PUBLIC_KEY = 'ZxEv_IcSrZAsKSUS0';
-        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // ← Find this in Email Services
-        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // ← Find this in Email Templates
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
 
-        // Initialize EmailJS
         if (EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
             emailjs.init(EMAILJS_PUBLIC_KEY);
             console.log('✅ EmailJS initialized');
-        } else {
-            console.warn('⚠️ EmailJS not configured. Please add your Public Key.');
         }
 
         // ============================================
-        // 2. TOAST NOTIFICATION
+        // 2. MULTI-VIDEO BACKGROUND TOGGLE
+        // ============================================
+        const videoToggle = document.getElementById('videoToggle');
+        const videoBg = document.getElementById('video-bg');
+        const videoWrapper = document.getElementById('videoWrapper');
+        const videoStatus = document.getElementById('videoStatus');
+        const videoCount = document.getElementById('videoCount');
+        const canvas = document.getElementById('particles-canvas');
+
+        // ─── YOUR 3 VIDEO URLs ───
+        // ⚠️ REPLACE THESE WITH YOUR ACTUAL VIDEO URLS ⚠️
+        const videoSources = [
+            'YOUR_VIDEO_1_URL.mp4', // Video 1
+            'YOUR_VIDEO_2_URL.mp4', // Video 2
+            'YOUR_VIDEO_3_URL.mp4' // Video 3
+        ];
+
+        const videoLabels = [
+            '🌌 Video 1: Space',
+            '🌿 Video 2: Nature',
+            '🏙️ Video 3: City'
+        ];
+
+        let currentVideoIndex = 0;
+        let isVideoMode = true;
+
+        // Function to switch video
+        function switchVideo(index) {
+            if (!videoSources[index]) return;
+
+            // Fade out
+            videoWrapper.style.opacity = '0';
+
+            setTimeout(() => {
+                // Change source
+                videoBg.src = videoSources[index];
+                videoBg.load();
+                videoBg.play().catch(() => {
+                    console.warn('Video playback failed, using particles');
+                    toggleVideoMode(false);
+                });
+
+                // Update badge
+                videoCount.textContent = index + 1;
+
+                // Update status
+                videoStatus.textContent = videoLabels[index] || `🎬 Video ${index + 1}`;
+                videoStatus.classList.add('show');
+                setTimeout(() => videoStatus.classList.remove('show'), 2000);
+
+                // Fade in
+                videoWrapper.style.opacity = '1';
+
+                // Ensure video mode is ON
+                if (!isVideoMode) {
+                    toggleVideoMode(true);
+                }
+            }, 400);
+        }
+
+        // Toggle between video and particles
+        function toggleVideoMode(showVideo) {
+            isVideoMode = showVideo;
+
+            if (showVideo) {
+                document.body.classList.remove('video-hidden');
+                videoToggle.innerHTML = '<i class="fas fa-video"></i><span class="badge-count" id="videoCount">' + (
+                    currentVideoIndex + 1) + '</span>';
+                videoToggle.classList.add('active');
+                videoWrapper.style.opacity = '1';
+            } else {
+                document.body.classList.add('video-hidden');
+                videoToggle.innerHTML = '<i class="fas fa-video-slash"></i><span class="badge-count" id="videoCount">⏸</span>';
+                videoToggle.classList.remove('active');
+                videoBg.pause();
+            }
+
+            // Re-find the badge after HTML change
+            updateBadgeReference();
+        }
+
+        function updateBadgeReference() {
+            // The badge gets recreated when we change innerHTML, so we need to re-fetch it
+            const newBadge = videoToggle.querySelector('.badge-count');
+            if (newBadge) {
+                window.videoCountElement = newBadge;
+            }
+        }
+
+        // ─── Video Toggle Click ───
+        videoToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            // If video is currently ON → go to particles
+            if (isVideoMode) {
+                toggleVideoMode(false);
+                return;
+            }
+
+            // If video is OFF → go to next video
+            if (!isVideoMode) {
+                // Move to next video
+                currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+
+                // Ensure we have a valid source
+                if (videoSources[currentVideoIndex] && videoSources[currentVideoIndex] !== 'YOUR_VIDEO_1_URL.mp4') {
+                    switchVideo(currentVideoIndex);
+                } else {
+                    // If no valid videos, just show particles
+                    toggleVideoMode(false);
+                    showToast('📹 No Videos', 'Please add your video URLs in the code.', 'error');
+                }
+                return;
+            }
+        });
+
+        // ─── Initialize: Try to load first video ───
+        function initVideo() {
+            if (videoSources[0] && videoSources[0] !== 'YOUR_VIDEO_1_URL.mp4') {
+                videoBg.src = videoSources[0];
+                videoBg.load();
+                videoBg.play().catch(() => {
+                    console.warn('Initial video failed, showing particles');
+                    toggleVideoMode(false);
+                });
+                videoCount.textContent = '1';
+                videoStatus.textContent = videoLabels[0] || '🌌 Video 1';
+            } else {
+                // No valid video URLs, start with particles
+                toggleVideoMode(false);
+                console.warn('⚠️ No video URLs configured. Add your videos to videoSources array.');
+                showToast('🎬 Add Videos', 'Add your 3 video URLs in the JavaScript code.', 'error');
+            }
+        }
+
+        // ─── Keyboard shortcut: Press V to toggle ───
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'v' || e.key === 'V') {
+                videoToggle.click();
+            }
+        });
+
+        // ─── Start ───
+        initVideo();
+
+        // ============================================
+        // 3. TOAST NOTIFICATION
         // ============================================
         const toast = document.getElementById('toast');
         const toastTitle = document.getElementById('toastTitle');
@@ -1791,7 +1988,7 @@
         }
 
         // ============================================
-        // 3. CONTACT FORM - WITH EMAILJS
+        // 4. CONTACT FORM
         // ============================================
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1811,16 +2008,9 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             btn.disabled = true;
 
-            // Check if EmailJS is configured
-            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY' ||
-                EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID' ||
-                EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
+            if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID' || EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
                 setTimeout(() => {
-                    showToast(
-                        '📧 Demo Mode',
-                        'Your message was recorded. To send real emails, configure EmailJS with your credentials.',
-                        'success'
-                    );
+                    showToast('📧 Demo Mode', 'Configure EmailJS to send real emails.', 'success');
                     document.getElementById('contactForm').reset();
                     btn.innerHTML = original;
                     btn.disabled = false;
@@ -1828,32 +2018,24 @@
                 return;
             }
 
-            // Send email via EmailJS
-            const templateParams = {
-                title: subject,
-                name: name,
-                email: email,
-                message: message,
-            };
+            const templateParams = { title: subject, name: name, email: email, message: message };
 
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-                .then(function(response) {
+                .then(() => {
                     showToast('✅ Message Sent!', 'Thank you, ' + name + '! I will get back to you soon.', 'success');
                     document.getElementById('contactForm').reset();
                     btn.innerHTML = original;
                     btn.disabled = false;
-                    console.log('✅ Email sent successfully:', response);
                 })
-                .catch(function(error) {
-                    showToast('❌ Something went wrong', 'Please try again later or email me directly.', 'error');
+                .catch(() => {
+                    showToast('❌ Error', 'Please try again or email me directly.', 'error');
                     btn.innerHTML = original;
                     btn.disabled = false;
-                    console.error('❌ EmailJS error:', error);
                 });
         });
 
         // ============================================
-        // 4. THEME TOGGLE
+        // 5. THEME TOGGLE
         // ============================================
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
@@ -1879,39 +2061,6 @@
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
             updateThemeIcon(next);
-        });
-
-        // ============================================
-        // 5. VIDEO BACKGROUND TOGGLE
-        // ============================================
-        const videoToggle = document.getElementById('videoToggle');
-        const videoWrapper = document.getElementById('videoWrapper');
-        const videoBg = document.getElementById('video-bg');
-        const canvas = document.getElementById('particles-canvas');
-        let videoActive = true;
-
-        // Check if video is available
-        videoBg.addEventListener('error', () => {
-            // If video fails, show particles
-            document.body.classList.add('video-hidden');
-            videoToggle.classList.remove('active');
-            videoActive = false;
-            console.warn('⚠️ Video failed to load. Particles activated.');
-        });
-
-        videoToggle.addEventListener('click', () => {
-            videoActive = !videoActive;
-            videoToggle.classList.toggle('active', videoActive);
-
-            if (videoActive) {
-                document.body.classList.remove('video-hidden');
-                videoBg.play().catch(() => {});
-                videoToggle.innerHTML = '<i class="fas fa-video"></i>';
-            } else {
-                document.body.classList.add('video-hidden');
-                videoBg.pause();
-                videoToggle.innerHTML = '<i class="fas fa-video-slash"></i>';
-            }
         });
 
         // ============================================
@@ -2097,7 +2246,7 @@
         });
 
         // ============================================
-        // 12. DOWNLOAD PDF - COMPLETE & WORKING
+        // 12. DOWNLOAD PDF
         // ============================================
         function generatePDF() {
             const btn = document.getElementById('floatDownloadBtn');
@@ -2110,120 +2259,54 @@
             const pdfContent = `
         <!DOCTYPE html>
         <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>Pugazhenthi Chandraboss - CV</title>
-            <style>
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                body {
-                    font-family: Arial, Helvetica, sans-serif;
-                    max-width: 800px;
-                    margin: 0 auto;
-                    padding: 40px;
-                    background: ${isLight ? '#FFFFFF' : '#0B0B14'};
-                    color: ${isLight ? '#111111' : '#F0F0F5'};
-                    line-height: 1.6;
-                }
-                h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; margin-bottom: 2px; color: ${isLight ? '#111' : '#F0F0F5'}; }
-                .subtitle { font-size: 17px; color: #D4A853; font-weight: 600; margin-bottom: 2px; }
-                .contact-bar { font-size: 13px; color: ${isLight ? '#666' : '#A0A0B8'}; margin-bottom: 20px; border-bottom: 2px solid #D4A853; padding-bottom: 14px; }
-                h2 { font-size: 15px; font-weight: 700; color: #D4A853; text-transform: uppercase; letter-spacing: 1px; margin-top: 18px; margin-bottom: 6px; }
-                p, li { font-size: 13px; color: ${isLight ? '#333' : '#A0A0B8'}; }
-                ul { padding-left: 20px; margin-bottom: 10px; }
-                li { margin-bottom: 2px; }
-                .job-title { font-weight: 700; font-size: 14px; margin-bottom: 1px; color: ${isLight ? '#111' : '#F0F0F5'}; }
-                .job-meta { font-size: 12px; color: ${isLight ? '#666' : '#A0A0B8'}; margin-bottom: 3px; }
-                .footer-text { font-size: 10px; color: ${isLight ? '#999' : '#6A6A82'}; margin-top: 25px; border-top: 1px solid ${isLight ? '#eee' : '#222'}; padding-top: 14px; text-align: center; }
-                .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
-                .info-block { background: ${isLight ? '#F5F3F0' : 'rgba(255,255,255,0.04)'}; padding: 12px 16px; border-radius: 8px; }
-                .info-block h3 { font-size: 13px; color: #D4A853; margin-bottom: 4px; }
-                .info-block p { font-size: 12px; margin-bottom: 2px; }
-            </style>
+        <head><meta charset="UTF-8"><title>CV - Pugazhenthi Chandraboss</title>
+        <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Arial,Helvetica,sans-serif;max-width:800px;margin:0 auto;padding:40px;background:${isLight?'#FFFFFF':'#0B0B14'};color:${isLight?'#111111':'#F0F0F5'};line-height:1.6}
+        h1{font-size:26px;font-weight:700;letter-spacing:1px;margin-bottom:2px;color:${isLight?'#111':'#F0F0F5'}}
+        .subtitle{font-size:17px;color:#D4A853;font-weight:600;margin-bottom:2px}
+        .contact-bar{font-size:13px;color:${isLight?'#666':'#A0A0B8'};margin-bottom:20px;border-bottom:2px solid #D4A853;padding-bottom:14px}
+        h2{font-size:15px;font-weight:700;color:#D4A853;text-transform:uppercase;letter-spacing:1px;margin-top:18px;margin-bottom:6px}
+        p,li{font-size:13px;color:${isLight?'#333':'#A0A0B8'}}
+        ul{padding-left:20px;margin-bottom:10px}
+        li{margin-bottom:2px}
+        .job-title{font-weight:700;font-size:14px;margin-bottom:1px;color:${isLight?'#111':'#F0F0F5'}}
+        .job-meta{font-size:12px;color:${isLight?'#666':'#A0A0B8'};margin-bottom:3px}
+        .footer-text{font-size:10px;color:${isLight?'#999':'#6A6A82'};margin-top:25px;border-top:1px solid ${isLight?'#eee':'#222'};padding-top:14px;text-align:center}
+        .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px}
+        .info-block{background:${isLight?'#F5F3F0':'rgba(255,255,255,0.04)'};padding:12px 16px;border-radius:8px}
+        .info-block h3{font-size:13px;color:#D4A853;margin-bottom:4px}
+        .info-block p{font-size:12px;margin-bottom:2px}
+        </style>
         </head>
         <body>
             <h1>PUGAZHENTHI CHANDRABOSS</h1>
             <div class="subtitle">Document Controller</div>
-            <div class="contact-bar">
-                Al Danah, Abu Dhabi, UAE &bull; +971 56 56 86 395 &bull; email2pugal@gmail.com &bull; linkedin.com/in/pugazhenthic
-            </div>
-
+            <div class="contact-bar">Al Danah, Abu Dhabi, UAE &bull; +971 56 56 86 395 &bull; email2pugal@gmail.com &bull; linkedin.com/in/pugazhenthic</div>
             <h2>Professional Summary</h2>
             <p>Certified Document Controller with 3+ years of dedicated document control experience and 10+ years of combined expertise in administrative support, logistics, and operational documentation across maritime and corporate environments. Experienced in managing the complete document lifecycle using Aconex and EDMS. Recognized for maintaining 100% audit compliance and coordinating high-volume documentation across cross-functional teams.</p>
-
             <h2>Key Achievements</h2>
-            <ul>
-                <li>Managed 200+ controlled documents per month with 100% audit compliance</li>
-                <li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li>
-                <li>Expert in Aconex EDMS and ISO 9001 documentation standards</li>
-            </ul>
-
+            <ul><li>Managed 200+ controlled documents per month with 100% audit compliance</li><li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li><li>Expert in Aconex EDMS and ISO 9001 documentation standards</li></ul>
             <h2>Professional Experience</h2>
-
             <div class="job-title">Document Controller</div>
             <div class="job-meta">Royal Greyhound Pte Ltd (Under PSA) &bull; Singapore &bull; Sep 2022 – Nov 2025</div>
-            <ul>
-                <li>Managed 200+ active documents monthly maintaining 100% audit compliance</li>
-                <li>Utilized Aconex EDMS for document uploads, transmittals, and revision control</li>
-                <li>Maintained document registers, revision histories, and audit-ready records</li>
-                <li>Enforced ISO 9001-aligned documentation procedures and numbering standards</li>
-                <li>Coordinated document flow between operations, compliance, and senior management</li>
-            </ul>
-
+            <ul><li>Managed 200+ active documents monthly maintaining 100% audit compliance</li><li>Utilized Aconex EDMS for document uploads, transmittals, and revision control</li><li>Maintained document registers, revision histories, and audit-ready records</li><li>Enforced ISO 9001-aligned documentation procedures and numbering standards</li><li>Coordinated document flow between operations, compliance, and senior management</li></ul>
             <div class="job-title">Port Operations Deployment Supervisor</div>
             <div class="job-meta">Royal Greyhound Pte Ltd (Under PSA) &bull; Singapore &bull; Mar 2018 – Aug 2022</div>
-            <ul>
-                <li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li>
-                <li>Maintained WSH and PSA compliance documentation</li>
-                <li>Coordinated incident reports, corrective actions, and audit records</li>
-                <li>Conducted safety briefings and documented risk assessments</li>
-            </ul>
-
+            <ul><li>Supervised 70+ personnel per shift with zero safety incidents over 3+ years</li><li>Maintained WSH and PSA compliance documentation</li><li>Coordinated incident reports, corrective actions, and audit records</li><li>Conducted safety briefings and documented risk assessments</li></ul>
             <div class="job-title">Marketing &amp; Administrative Executive</div>
             <div class="job-meta">PUGAZH TV (PLC 55702) &bull; India &bull; Feb 2015 – Aug 2017</div>
-            <ul>
-                <li>Managed administrative filing, correspondence, and document archiving</li>
-                <li>Prepared marketing performance reports and broadcasting documentation</li>
-                <li>Designed promotional materials using Adobe Photoshop</li>
-            </ul>
-
+            <ul><li>Managed administrative filing, correspondence, and document archiving</li><li>Prepared marketing performance reports and broadcasting documentation</li><li>Designed promotional materials using Adobe Photoshop</li></ul>
             <div class="job-title">Desktop Support Associate</div>
             <div class="job-meta">Avitronics Systemtech Pvt. Ltd. &bull; India &bull; Jul 2013 – Jul 2014</div>
-            <ul>
-                <li>Managed HR documentation including employee records and payroll data</li>
-                <li>Maintained document control for internal correspondence and records</li>
-                <li>Coordinated IT asset documentation and maintenance records</li>
-            </ul>
-
+            <ul><li>Managed HR documentation including employee records and payroll data</li><li>Maintained document control for internal correspondence and records</li><li>Coordinated IT asset documentation and maintenance records</li></ul>
             <h2>Education &amp; Certifications</h2>
-            <ul>
-                <li><strong>Bachelor of Computer Applications (BCA)</strong> — Bharathidasan University &bull; 65% &bull; 2013</li>
-                <li><strong>Certified Document Controller (CPD)</strong> — Time Training Center LLC &bull; ID: 22964</li>
-                <li><strong>Document Control (ACTVET)</strong> — Time Training Center LLC &bull; ID: 19863</li>
-                <li><strong>Container Lashing Operations</strong> — ITE Singapore &bull; ID: 208733 &bull; 2018</li>
-            </ul>
-
-            <div class="info-grid">
-                <div class="info-block">
-                    <h3>🌐 Languages</h3>
-                    <p>English — Fluent</p>
-                    <p>Tamil — Native</p>
-                    <p>Malay — Basic</p>
-                </div>
-                <div class="info-block">
-                    <h3>ℹ️ Additional Information</h3>
-                    <p>Work Authorization: Resident Visa (Spouse)</p>
-                    <p>Availability: Immediate</p>
-                    <p>Relocation: Open within UAE</p>
-                    <p>Travel: Willing to Travel</p>
-                    <p>Passport Validity: October 2033</p>
-                </div>
-            </div>
-
+            <ul><li><strong>Bachelor of Computer Applications (BCA)</strong> — Bharathidasan University &bull; 65% &bull; 2013</li><li><strong>Certified Document Controller (CPD)</strong> — Time Training Center LLC &bull; ID: 22964</li><li><strong>Document Control (ACTVET)</strong> — Time Training Center LLC &bull; ID: 19863</li><li><strong>Container Lashing Operations</strong> — ITE Singapore &bull; ID: 208733 &bull; 2018</li></ul>
+            <div class="info-grid"><div class="info-block"><h3>🌐 Languages</h3><p>English — Fluent</p><p>Tamil — Native</p><p>Malay — Basic</p></div><div class="info-block"><h3>ℹ️ Additional Information</h3><p>Work Authorization: Resident Visa (Spouse)</p><p>Availability: Immediate</p><p>Relocation: Open within UAE</p><p>Travel: Willing to Travel</p><p>Passport Validity: October 2033</p></div></div>
             <div class="footer-text">© 2026 Pugazhenthi Chandraboss &bull; Professional CV</div>
         </body>
         </html>`;
 
-            // Create temporary container
             const container = document.createElement('div');
             container.innerHTML = pdfContent;
             container.style.position = 'fixed';
@@ -2234,40 +2317,26 @@
             container.style.zIndex = '-1';
             document.body.appendChild(container);
 
-            const opt = {
+            html2pdf().set({
                 margin: [0.4, 0.4, 0.4, 0.4],
                 filename: 'Pugazhenthi_Chandraboss_CV.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    width: 800,
-                },
-                jsPDF: {
-                    unit: 'in',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            };
-
-            html2pdf().set(opt).from(container).save()
+                html2canvas: { scale: 2, useCORS: true, logging: false, width: 800 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            }).from(container).save()
                 .then(() => {
                     document.body.removeChild(container);
                     btn.innerHTML = originalText;
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                    }, 3000);
-                    showToast('✅ PDF Downloaded!', 'Your professional CV has been generated successfully.', 'success');
+                    setTimeout(() => { btn.innerHTML = originalText; }, 3000);
+                    showToast('✅ PDF Downloaded!', 'Your professional CV has been generated.', 'success');
                 })
-                .catch((err) => {
+                .catch(() => {
                     document.body.removeChild(container);
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                    console.error('PDF Error:', err);
-                    showToast('❌ PDF Error', 'There was an issue generating the PDF. Please try again.', 'error');
+                    showToast('❌ PDF Error', 'Please try again.', 'error');
                 });
         }
 
@@ -2277,10 +2346,10 @@
         // ============================================
         // 13. CONSOLE WELCOME
         // ============================================
-        console.log('%c☀️ Pugazhenthi Chandraboss', 'font-size: 20px; font-weight: bold; color: #D4A853;');
-        console.log('%cDocument Controller | 3+ Years Experience | Abu Dhabi, UAE', 'font-size: 14px; color: #A0A0B8;');
-        console.log('%c🎬 Click the video icon in the header to toggle the background video on/off.', 'font-size: 12px; color: #6A6A82;');
-        console.log('%c📄 Click "Download CV" for a complete, properly formatted PDF.', 'font-size: 12px; color: #6A6A82;');
+        console.log('%c☀️ Pugazhenthi Chandraboss', 'font-size:20px;font-weight:bold;color:#D4A853');
+        console.log('%c📄 Document Controller | 3+ Years | Abu Dhabi, UAE', 'font-size:14px;color:#A0A0B8');
+        console.log('%c🎬 Video Toggle: Click the video icon → BG → Particles → BG1 → Particles → BG2', 'font-size:12px;color:#6A6A82');
+        console.log('%c⌨️  Keyboard shortcut: Press "V" to toggle', 'font-size:12px;color:#6A6A82');
     </script>
 </body>
 </html>
